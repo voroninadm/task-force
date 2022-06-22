@@ -43,20 +43,31 @@ class Task
         ];
     }
 
-    public function getNextStatus(string $action): ?string {
+    public function getNextStatus(string $action): string {
         return match ($action) {
             self::ACTION_CREATE => self::STATUS_NEW,
             self::ACTION_DECLINE => self::STATUS_FAILED,
             self::ACTION_REFUSE => self::STATUS_CANCELED,
-            self::ACTION_FINISH => self::STATUS_DONE
+            self::ACTION_FINISH => self::STATUS_DONE,
         };
     }
 
-    public function getPossibleActions(string $status, int $performerId): ?string
+    public function getPossibleActions(string $status): ?array
     {
-        return match ($status) {
-            self::STATUS_NEW => $performerId ? self::ACTION_RESPOND : self::ACTION_REFUSE,
-            self::STATUS_IN_WORK => self::ACTION_FINISH || self::ACTION_DECLINE
-        };
+        $possibleActions = [
+            self::STATUS_NEW => [
+                self::ACTION_REFUSE,
+                self::ACTION_RESPOND,
+            ],
+            self::STATUS_CANCELED => null,
+            self::STATUS_IN_WORK => [
+                self::ACTION_FINISH,
+                self::ACTION_DECLINE,
+            ],
+            self::STATUS_DONE => null,
+            self::STATUS_FAILED => null,
+        ];
+
+        return $possibleActions[$status] ?? null;
     }
 }
