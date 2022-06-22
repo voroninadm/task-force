@@ -1,5 +1,9 @@
 <?php
 
+
+namespace taskforce\classes;
+
+
 class Task
 {
     const STATUS_NEW = 'new';
@@ -30,7 +34,7 @@ class Task
             self::STATUS_IN_WORK => 'Задание в работе',
             self::STATUS_DONE => 'Задание завершено',
             self::STATUS_FAILED => 'Задание провалено'
-            ];
+        ];
     }
 
     public function getActionsMap(): array {
