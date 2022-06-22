@@ -1,0 +1,10 @@
+{
+    "name": "rinceoir/taskforce",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "taskforce\\": "src/"
+        }
+    },
+    "require": {}
+}
