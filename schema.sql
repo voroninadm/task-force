@@ -100,6 +100,17 @@ CREATE TABLE performer_task(
 
     PRIMARY KEY (task_id, user_id),
     FOREIGN KEY (task_id) REFERENCES task(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
-
+    FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+--отклики на задания
+CREATE TABLE respond_task (
+    task_id INT NOT NULL,
+    task_budget UNSIGNED NULL,
+    user_id INT NOT NULL,
+    comment VARCHAR(255) NULL,
+
+    PRIMARY KEY (task_id, user_id)
+    FOREIGN KEY (task_id) REFERENCES task(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
+)
