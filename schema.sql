@@ -1,3 +1,5 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 DROP DATABASE IF EXISTS taskforce;
 
 CREATE DATABASE taskforce
@@ -5,6 +7,29 @@ CREATE DATABASE taskforce
   DEFAULT COLLATE utf8mb4_general_ci;
 
 USE taskforce;
+
+-- simple tables --
+
+-- таблица городов
+CREATE TABLE city(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    coordinates POINT NOT NULL
+);
+
+-- файлы задач
+CREATE TABLE file(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  url VARCHAR(255) NULL
+);
+
+-- таблица категорий работ
+CREATE TABLE category(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+-- main tables --
 
 -- таблица задач
 CREATE TABLE task (
@@ -15,16 +40,17 @@ CREATE TABLE task (
     description VARCHAR(255) NOT NULL,
     category_id INT NOT NULL,
     location POINT NULL,
-    budget UNSIGNED INT NULL,
+    budget INT UNSIGNED NULL,
     deadline TIMESTAMP,
-    file VARCHAR(255) NULL,
+    file_id INT NULL,
     customer_id INT NOT NULL,
     performer_id INT NULL,
 
     CONSTRAINT task_fk_category_id FOREIGN KEY (category_id) REFERENCES category(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT task_fk_file_id FOREIGN KEY (file_id) REFERENCES file(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---таблица пользователей
+-- таблица пользователей
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -36,9 +62,9 @@ CREATE TABLE user (
     is_performer BOOLEAN NOT NULL,
 
     UNIQUE INDEX user_email (email)
-)
+);
 
---дополение для профилей исполнителей
+-- дополение для профилей исполнителей
 CREATE TABLE user_perform(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -50,50 +76,31 @@ CREATE TABLE user_perform(
     rating DECIMAL NULL,
     user_status BOOLEAN NOT NULL,
 
-    CONSTRAINT user_perform_fk_user_id FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT user_perform_fk_user_id FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
------
+--
 
---файлы задач
-CREATE TABLE file(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    url VARCHAR(255) NULL
-);
-
---связь задач и файлов задач
+-- связь задач и файлов задач
 CREATE TABLE task_file(
     task_id INT NOT NULL,
     file_id INT NOT NULL,
 
     PRIMARY KEY (task_id, file_id),
     FOREIGN KEY (task_id) REFERENCES task(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (file_id) REFERENCES file(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (file_id) REFERENCES file(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- таблица городов
-CREATE TABLE city(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    coordinates POINT NOT NULL
-);
-
---таблица категорий работ
-CREATE TABLE category(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
---связь категорий работ и категорий исполнителей
+-- связь категорий работ и категорий исполнителей
 CREATE TABLE user_perform_category(
     user_id INT NOT NULL,
     category_id INT NOT NULL,
 
     PRIMARY KEY (user_id, category_id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES category(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---связь задач и исполнителей для отклика
+-- связь задач и исполнителей для отклика
 CREATE TABLE performer_task(
     task_id INT NOT NULL,
     user_id INT NOT NULL,
@@ -103,14 +110,14 @@ CREATE TABLE performer_task(
     FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---отклики на задания
+-- отклики на задания
 CREATE TABLE respond_task (
     task_id INT NOT NULL,
-    task_budget UNSIGNED NULL,
+    task_budget INT UNSIGNED NULL,
     user_id INT NOT NULL,
     comment VARCHAR(255) NULL,
 
-    PRIMARY KEY (task_id, user_id)
+    PRIMARY KEY (task_id, user_id),
     FOREIGN KEY (task_id) REFERENCES task(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
