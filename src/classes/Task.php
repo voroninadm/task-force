@@ -18,11 +18,13 @@ class Task
     const ACTION_FINISH = 'finish';
     const ACTION_REFUSE = 'refuse';
 
-    protected $customerId = 0;
-    protected $performerId = 0;
+    protected $customerId;
+    protected $performerId;
+    public $currentTaskStatus;
 
 
-    public function __construct(int $customerId, ?int $performerId = null) {
+    public function __construct(int $customerId, ?int $performerId = null, string $currentTaskStatus = self::STATUS_NEW) {
+        $this->$currentTaskStatus = $currentTaskStatus;
         $this->$customerId = $customerId;
         $this->$performerId = $performerId;
     }
@@ -48,6 +50,9 @@ class Task
     }
 
     public function getNextStatus(string $action): string {
+        if (!array_key_exists($action, $this->getActionsMap())) {
+            exit("Вызвано некорректное действие: $action");
+        }
         return match ($action) {
             self::ACTION_CREATE => self::STATUS_NEW,
             self::ACTION_DECLINE => self::STATUS_FAILED,
@@ -72,6 +77,6 @@ class Task
             self::STATUS_FAILED => null,
         ];
 
-        return $possibleActions[$status] ?? null;
+        return $possibleActions[$status] ?? [];
     }
 }
