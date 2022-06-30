@@ -49,6 +49,7 @@ CREATE TABLE user
     failed_task    INT          NULL,
     rating         DECIMAL      NULL,
     is_performer   BOOLEAN      NOT NULL,
+    is_private     BOOLEAN   DEFAULT 0,
     is_free        BOOLEAN      NOT NULL,
 
     UNIQUE INDEX user_email (email),
