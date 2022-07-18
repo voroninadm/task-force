@@ -3,6 +3,10 @@
 
 namespace taskforce\classes;
 
+use taskforce\classes\actions\ActionDecline;
+use taskforce\classes\actions\ActionFinish;
+use taskforce\classes\actions\ActionRefuse;
+use taskforce\classes\actions\ActionRespond;
 
 class Task
 {
@@ -18,18 +22,20 @@ class Task
     const ACTION_FINISH = 'finish';
     const ACTION_REFUSE = 'refuse';
 
-    protected $customerId;
-    protected $performerId;
-    public $currentTaskStatus;
+    public int $customerId;
+    public ?int $performerId;
+    public string $currentStatus;
 
 
-    public function __construct(int $customerId, ?int $performerId = null, string $currentTaskStatus = self::STATUS_NEW) {
+    public function __construct(int $customerId, ?int $performerId = null, string $currentTaskStatus = self::STATUS_NEW)
+    {
         $this->$currentTaskStatus = $currentTaskStatus;
         $this->$customerId = $customerId;
         $this->$performerId = $performerId;
     }
 
-    public function getStatusMap (): array {
+    public function getStatusMap(): array
+    {
         return [
             self::STATUS_NEW => 'Новое задание',
             self::STATUS_CANCELED => 'Задание отменено',
@@ -39,8 +45,9 @@ class Task
         ];
     }
 
-    public function getActionsMap(): array {
-        return[
+    public function getActionsMap(): array
+    {
+        return [
             self::ACTION_CREATE => 'Создать задание',
             self::ACTION_REFUSE => 'Отменить задание',
             self::ACTION_RESPOND => 'Откликнуться на задание',
@@ -49,32 +56,27 @@ class Task
         ];
     }
 
-    public function getNextStatus(string $action): string {
+    public function getNextStatus(string $action): string
+    {
         if (!array_key_exists($action, $this->getActionsMap())) {
             exit("Вызвано некорректное действие: $action");
         }
         return match ($action) {
-            self::ACTION_CREATE => self::STATUS_NEW,
-            self::ACTION_DECLINE => self::STATUS_FAILED,
-            self::ACTION_REFUSE => self::STATUS_CANCELED,
-            self::ACTION_FINISH => self::STATUS_DONE,
+            ActionDecline::class => self::STATUS_FAILED,
+            ActionRefuse::class => self::STATUS_CANCELED,
+            ActionFinish::class => self::STATUS_DONE,
+            ActionRespond::class => null
         };
     }
 
     public function getPossibleActions(string $status): ?array
     {
         $possibleActions = [
-            self::STATUS_NEW => [
-                self::ACTION_REFUSE,
-                self::ACTION_RESPOND,
-            ],
-            self::STATUS_CANCELED => null,
-            self::STATUS_IN_WORK => [
-                self::ACTION_FINISH,
-                self::ACTION_DECLINE,
-            ],
-            self::STATUS_DONE => null,
-            self::STATUS_FAILED => null,
+            self::STATUS_NEW => [ActionRefuse::class, ActionRespond::class],
+            self::STATUS_CANCELED => [],
+            self::STATUS_IN_WORK => [ActionFinish::class, ActionDecline::class],
+            self::STATUS_DONE => [],
+            self::STATUS_FAILED => [],
         ];
 
         return $possibleActions[$status] ?? [];
