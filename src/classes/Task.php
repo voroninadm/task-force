@@ -23,7 +23,7 @@ class Task
     const ACTION_REFUSE = 'refuse';
 
     public int $customerId;
-    public int $performerId;
+    public ?int $performerId;
     public string $currentStatus;
 
 
@@ -73,10 +73,10 @@ class Task
     {
         $possibleActions = [
             self::STATUS_NEW => [ActionRefuse::class, ActionRespond::class],
-            self::STATUS_CANCELED => null,
+            self::STATUS_CANCELED => [],
             self::STATUS_IN_WORK => [ActionFinish::class, ActionDecline::class],
-            self::STATUS_DONE => null,
-            self::STATUS_FAILED => null,
+            self::STATUS_DONE => [],
+            self::STATUS_FAILED => [],
         ];
 
         return $possibleActions[$status] ?? [];
