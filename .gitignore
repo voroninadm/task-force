@@ -1,5 +1,6 @@
 /vendor/
 tests.php
+/tests.php
 .DS_Store
 .idea
 *.ai
