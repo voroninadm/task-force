@@ -7,6 +7,7 @@ use taskforce\classes\actions\ActionDecline;
 use taskforce\classes\actions\ActionFinish;
 use taskforce\classes\actions\ActionRefuse;
 use taskforce\classes\actions\ActionRespond;
+use taskforce\classes\exceptions\statusException;
 
 class Task
 {
@@ -27,11 +28,11 @@ class Task
     public string $currentStatus;
 
 
-    public function __construct(int $customerId, ?int $performerId = null, string $currentTaskStatus = self::STATUS_NEW)
+    public function __construct(int $customerId, ?int $performerId = null, string $status = self::STATUS_NEW)
     {
-        $this->$currentTaskStatus = $currentTaskStatus;
-        $this->$customerId = $customerId;
-        $this->$performerId = $performerId;
+        $this->customerId = $customerId;
+        $this->performerId = $performerId;
+        $this->currentStatus = $status;
     }
 
     public function getStatusMap(): array
@@ -67,6 +68,16 @@ class Task
             ActionFinish::class => self::STATUS_DONE,
             ActionRespond::class => null
         };
+    }
+
+    public function setStatus(string $status): void
+    {
+        $availableStatuses = array_keys(self::getStatusMap());
+        if (!in_array($status, $availableStatuses)) {
+            throw new StatusException("Неизвестный статус: $status");
+        }
+        $this->currentStatus = $status;
+
     }
 
     public function getPossibleActions(string $status): ?array

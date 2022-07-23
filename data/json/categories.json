@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Курьерские услуги",
+    "icon": "translation"
+  },
+  {
+    "name": "Уборка",
+    "icon": "clean"
+  },
+  {
+    "name": "Переезды",
+    "icon": "cargo"
+  },
+  {
+    "name": "Компьютерная помощь",
+    "icon": "neo"
+  },
+  {
+    "name": "Ремонт квартирный",
+    "icon": "flat"
+  },
+  {
+    "name": "Ремонт техники",
+    "icon": "repair"
+  },
+  {
+    "name": "Красота",
+    "icon": "beauty"
+  },
+  {
+    "name": "Фото",
+    "icon": "photo"
+  }
+]
