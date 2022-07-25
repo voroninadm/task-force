@@ -13,7 +13,8 @@ CREATE TABLE city
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
-    coordinates POINT        NOT NULL
+    lat DECIMAL (11, 8),
+    lng DECIMAL (11, 8)
 );
 
 -- файлы задач
@@ -27,7 +28,8 @@ CREATE TABLE file
 CREATE TABLE category
 (
     id   INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    icon VARCHAR(255) NOT NULL
 );
 
 -- main tables --
