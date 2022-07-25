@@ -8,7 +8,7 @@ use taskforce\classes\exceptions\ConverterException;
 
 class CsvToSqlConverter
 {
-    public array $filesToConvert = [];
+    protected array $filesToConvert = [];
 
     /**
      * CsvToSqlConverter constructor.
@@ -68,6 +68,9 @@ class CsvToSqlConverter
         $file->setFlags(\SplFileObject::READ_CSV);
 
         $columns = $file->fgetcsv();
+        $separator = ',';
+        $columnsNames = implode($separator, $columns);
+
         $values = [];
 
         while (!$file->eof()) {
@@ -75,7 +78,8 @@ class CsvToSqlConverter
         }
 
         $fileName = $file->getBasename('.csv');
-        $fileConvertedToSql = $this->getSqlContent($fileName, $columns, $values);
+
+        $fileConvertedToSql = $this->getSqlContent($fileName, $columnsNames, $values);
 
         return $this->saveSqlContent($fileName, $outputDirectory, $fileConvertedToSql);
     }
@@ -83,16 +87,13 @@ class CsvToSqlConverter
     /**
      * Берем массив данных и создаем команды
      * @param string $fileName
-     * @param array $columns
+     * @param string $columnsNames
      * @param array $values
      * @return string
      */
-    protected function getSqlContent(string $fileName, array $columns, array $values): string
+    protected function getSqlContent(string $fileName, string $columnsNames, array $values): string
     {
-        $separator = ',';
-        $columnsString = implode($separator, $columns);
-
-        $sql = "INSERT INTO $fileName ($columnsString) VALUES ";
+        $sql = "INSERT INTO $fileName ($columnsNames) VALUES ";
 
         foreach ($values as $value) {
             array_walk($value, function (&$row) {
@@ -115,7 +116,7 @@ class CsvToSqlConverter
      */
     protected function saveSqlContent(string $tableName, string $outputDirectory, string $content): string
     {
-        if(!is_dir($outputDirectory)) {
+        if (!is_dir($outputDirectory)) {
             throw new ConverterException('Директория для конвертированных файлов не существует');
         }
 
