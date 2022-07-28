@@ -3,6 +3,7 @@
 
 #config private files
 ./config/db.php
+config/db.php
 
 # netbeans project files
 nbproject
