@@ -2,103 +2,155 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $birth_date
+ * @property int $city_id
+ * @property string|null $reg_date
+ * @property int|null $avatar_file_id
+ * @property string $email
+ * @property string $password
+ * @property string $phone
+ * @property string $telegram
+ * @property int|null $done_task
+ * @property int|null $failed_task
+ * @property float|null $rating
+ * @property int $is_performer
+ * @property int|null $is_private
+ * @property int $is_busy
+ *
+ * @property File $avatarFile
+ * @property Category[] $categories
+ * @property City $city
+ * @property Response[] $responses
+ * @property Task[] $tasks
+ * @property Task[] $tasks0
+ * @property UserCategory[] $userCategories
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['name', 'city_id', 'email', 'password', 'phone', 'telegram', 'is_performer'], 'required'],
+            [['birth_date', 'reg_date'], 'safe'],
+            [['city_id', 'avatar_file_id', 'done_task', 'failed_task', 'is_performer', 'is_private', 'is_busy'], 'integer'],
+            [['rating'], 'number'],
+            [['name', 'email', 'password', 'phone', 'telegram'], 'string', 'max' => 255],
+            [['email'], 'unique'],
+            [['avatar_file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::class, 'targetAttribute' => ['avatar_file_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::class, 'targetAttribute' => ['city_id' => 'id']],
+        ];
     }
 
     /**
-     * Finds user by username
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Имя',
+            'birth_date' => 'Дата рождения',
+            'city_id' => 'ID города',
+            'reg_date' => 'Дата регистрации',
+            'avatar_file_id' => 'ID файла-аватарки',
+            'email' => 'Email',
+            'password' => 'Пароль',
+            'phone' => 'Номер телефона',
+            'telegram' => 'Telegram-аккаунт',
+            'done_task' => 'Выполненные задания',
+            'failed_task' => 'Проваленные задания',
+            'rating' => 'Рейтинг',
+            'is_performer' => 'Является ли заказчиком',
+            'is_private' => 'Закрытый ли профиль',
+            'is_busy' => 'Занят ли исполнитель',
+        ];
+    }
+
+    /**
+     * Gets query for [[AvatarFile]].
      *
-     * @param string $username
-     * @return static|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function findByUsername($username)
+    public function getAvatarFile()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return $this->hasOne(File::class, ['id' => 'avatar_file_id']);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
+     * Gets query for [[Categories]].
      *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @return \yii\db\ActiveQuery
      */
-    public function validatePassword($password)
+    public function getCategories()
     {
-        return $this->password === $password;
+        return $this->hasMany(Category::class, ['id' => 'category_id'])->viaTable('user_category', ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(City::class, ['id' => 'city_id']);
+    }
+
+    /**
+     * Gets query for [[Responses]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getResponses()
+    {
+        return $this->hasMany(Response::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(Task::class, ['customer_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks0()
+    {
+        return $this->hasMany(Task::class, ['performer_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[UserCategories]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserCategories()
+    {
+        return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
     }
 }
