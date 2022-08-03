@@ -65,7 +65,7 @@ $config = [
         'db' => $db,
         // --formatter locale config
         'formatter' => [
-            'locale' => 'ru-RU',
+            'locale' => 'ru_RU',
             'defaultTimeZone' => 'Europe/Moscow',
         ],
         'urlManager' => [

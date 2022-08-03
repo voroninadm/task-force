@@ -1,19 +1,17 @@
 <?php
-/**
- * @var $faker \Faker\Generator
- * @var $index integer
- */
 
 $faker = Faker\Factory::create('ru_RU');
-$citiesCount = 1087;
+
+$cities_count = 1087;
+$url = 30;
 
 
 return [
     'name' => $faker->name(),
     'birth_date' => $faker->date(),
-    'city_id' => $faker->numberBetween(1, $citiesCount),
+    'city_id' => $faker->numberBetween(0, $cities_count),
     'reg_date' => $faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'),
-    'avatar_file_id' => $faker->unique()->numberBetween(1, 100),
+    'avatar_file_id' => $faker->unique()->numberBetween(1, $url),
     'email' => $faker->unique()->email(),
     'password' => Yii::$app->getSecurity()->generatePasswordHash('password'),
     'phone' => $faker->e164PhoneNumber(),
