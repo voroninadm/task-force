@@ -1,0 +1,11 @@
+
+category_count = 8;
+cities_count = 1087;
+users_count = 15;
+tasks = 20;
+responses = 10;
+review = 10;
+files = 30;
+
+taskFiles = 15;
+userCategory = 15;

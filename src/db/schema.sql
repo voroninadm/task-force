@@ -1,20 +1,23 @@
-DROP DATABASE IF EXISTS taskforce;
+DROP
+DATABASE IF EXISTS taskforce;
 
-CREATE DATABASE taskforce
+CREATE
+DATABASE taskforce
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_general_ci;
 
-USE taskforce;
+USE
+taskforce;
 
 -- simple tables --
 
 -- таблица городов
 CREATE TABLE city
 (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
-    lat DECIMAL (11, 8),
-    lng DECIMAL (11, 8)
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    lat  DECIMAL(11, 8),
+    lng  DECIMAL(11, 8)
 );
 
 -- файлы задач
@@ -41,18 +44,18 @@ CREATE TABLE user
     name           VARCHAR(255) NOT NULL,
     birth_date     TIMESTAMP,
     city_id        INT          NOT NULL,
-    reg_date       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    avatar_file_id INT          NULL,
+    reg_date       TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
+    avatar_file_id INT NULL,
     email          VARCHAR(255) NOT NULL,
     password       VARCHAR(255) NOT NULL,
     phone          VARCHAR(50)  NOT NULL,
     telegram       VARCHAR(255) NOT NULL,
-    done_task      INT          NULL,
-    failed_task    INT          NULL,
-    rating         DECIMAL      NULL,
+    done_task      INT NULL,
+    failed_task    INT NULL,
+    rating         DECIMAL NULL,
     is_performer   BOOLEAN      NOT NULL,
-    is_private     BOOLEAN   DEFAULT 0,
-    is_free        BOOLEAN      NOT NULL,
+    is_private     BOOLEAN               DEFAULT 0,
+    is_busy        BOOLEAN      NOT NULL DEFAULT 0,
 
     UNIQUE INDEX user_email (email),
 
@@ -60,7 +63,7 @@ CREATE TABLE user
     CONSTRAINT user_fk_avatar_file_id FOREIGN KEY (avatar_file_id) REFERENCES file (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- таблица зад/**/ач
+-- таблица задач
 CREATE TABLE task
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -71,11 +74,11 @@ CREATE TABLE task
     category_id  INT          NOT NULL,
     city_id      INT          NOT NULL,
     address      VARCHAR(255) NULL,
-    location     POINT        NULL,
+    location     POINT NULL,
     price        INT UNSIGNED NULL,
     deadline     TIMESTAMP,
     customer_id  INT          NOT NULL,
-    performer_id INT          NULL,
+    performer_id INT NULL,
 
     CONSTRAINT task_fk_category_id FOREIGN KEY (category_id) REFERENCES category (id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT task_fk_customer_id FOREIGN KEY (customer_id) REFERENCES user (id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -124,9 +127,9 @@ CREATE TABLE review
 CREATE TABLE response
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    task_id     INT          NOT NULL,
+    task_id     INT NOT NULL,
     task_budget INT UNSIGNED NULL,
-    user_id     INT          NOT NULL,
+    user_id     INT NOT NULL,
     comment     VARCHAR(255) NULL,
     create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     price       INT UNSIGNED NULL,

@@ -5,6 +5,8 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'language' => 'ru',
+    'timeZone' => 'Europe/Moscow',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -61,14 +63,17 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        // --formatter locale config
+        'formatter' => [
+            'locale' => 'ru_RU',
+            'defaultTimeZone' => 'Europe/Moscow',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
