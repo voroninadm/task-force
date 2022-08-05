@@ -3,7 +3,7 @@
 return [
     'task0' => [
         'public_date' => '2022-08-03 00:49:06',
-        'status' => 'failed',
+        'status' => 'new',
         'title' => 'Quia ipsam eligendi molestiae nihil atque est rem.',
         'description' => 'Nam dolores ratione minima laboriosam sapiente voluptates quaerat voluptatem. Enim aspernatur ipsa deleniti distinctio illo at sint voluptatem.',
         'category_id' => 7,

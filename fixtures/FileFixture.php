@@ -3,8 +3,9 @@
 
 namespace app\fixtures;
 
-use yii\test\ActiveFixture;
 use app\models\File;
+use yii\test\ActiveFixture;
+
 
 class FileFixture extends ActiveFixture
 {
