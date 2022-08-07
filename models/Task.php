@@ -140,8 +140,9 @@ class Task extends \yii\db\ActiveRecord
      * Gets query for [[Files]].
      *
      * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getFiles()
+    public function getFiles(): \yii\db\ActiveQuery
     {
         return $this->hasMany(File::class, ['id' => 'file_id'])->viaTable('task_file', ['task_id' => 'id']);
     }
@@ -151,7 +152,7 @@ class Task extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getPerformer()
+    public function getPerformer(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'performer_id']);
     }
