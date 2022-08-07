@@ -18,23 +18,23 @@ $this->title = 'Новые задания';
 <div class="left-column">
     <h3 class="head-main head-task">Новые задания</h3>
     <?php foreach ($models as $model): ?>
-    <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big"><?= Html::encode($model->title); ?></a>
-            <p class="price price--task"><?= Html::encode($model->price); ?> ₽</p>
+        <div class="task-card">
+            <div class="header-task">
+                <a href="#" class="link link--block link--big"><?= Html::encode($model->title); ?></a>
+                <p class="price price--task"><?= Html::encode($model->price); ?> ₽</p>
+            </div>
+            <p class="info-text">
+                <span class="current-time"><?= Yii::$app->formatter->asRelativeTime($model->public_date); ?></span>
+            </p>
+            <p class="task-text"><?= Html::encode(BaseStringHelper::truncate($model->description, 200)); ?></p>
+            <div class="footer-task">
+                <?php if (isset($model->address)) : ?>
+                <p class="info-text town-text"><?= Html::encode($model->address); ?></p>
+                <?php endif; ?>
+                <p class="info-text category-text"><?= Html::encode($model->category->name) ?></p>
+                <a href="#" class="button button--black">Смотреть Задание</a>
+            </div>
         </div>
-        <p class="info-text">
-            <span class="current-time"><?= Yii::$app->formatter->asRelativeTime($model->public_date); ?></span>
-        </p>
-
-        <p class="task-text"><?= Html::encode(BaseStringHelper::truncate($model->description, 200)); ?></p>
-
-        <div class="footer-task">
-            <p class="info-text town-text"><?= Html::encode($model->address); ?></p>
-            <p class="info-text category-text"><?= Html::encode($model->category->name) ?></p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div>
     <?php endforeach; ?>
 
     <div class="pagination-wrapper">
@@ -63,19 +63,23 @@ $this->title = 'Новые задания';
             <form>
                 <h4 class="head-card">Категории</h4>
                 <div class="form-group">
-                    <div>
-                        <input type="checkbox" id="сourier-services" checked>
-                        <label class="control-label" for="сourier-services">Курьерские услуги</label>
-                        <input id="cargo-transportation" type="checkbox">
-                        <label class="control-label" for="cargo-transportation">Грузоперевозки</label>
-                        <input id="translations" type="checkbox">
-                        <label class="control-label" for="translations">Переводы</label>
+                    <div class="checkbox-wrapper">
+                        <label class="control-label" for="сourier-services">
+                            <input type="checkbox" id="сourier-services" checked>
+                            Курьерские услуги</label>
+                        <label class="control-label" for="cargo-transportation">
+                            <input id="cargo-transportation" type="checkbox">
+                            Грузоперевозки</label>
+                        <label class="control-label" for="translations">
+                            <input id="translations" type="checkbox">
+                            Переводы</label>
                     </div>
                 </div>
                 <h4 class="head-card">Дополнительно</h4>
                 <div class="form-group">
-                    <input id="without-performer" type="checkbox" checked>
-                    <label class="control-label" for="without-performer">Без исполнителя</label>
+                    <label class="control-label" for="without-performer">
+                        <input id="without-performer" type="checkbox" checked>
+                        Без исполнителя</label>
                 </div>
                 <h4 class="head-card">Период</h4>
                 <div class="form-group">
@@ -86,7 +90,7 @@ $this->title = 'Новые задания';
                         <option>24 часа</option>
                     </select>
                 </div>
-                <input type="button" class="button button--blue" value="Искать">
+                <input type="submit" class="button button--blue" value="Искать">
             </form>
         </div>
     </div>
