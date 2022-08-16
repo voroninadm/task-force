@@ -1211,7 +1211,7 @@ select {
   background-position: 205px 18px; }
 
 .search-form {
-  padding-bottom: 80px; }
+  padding-bottom: 40px; }
 
 .checkbox-wrapper {
   display: -webkit-box;
@@ -1408,7 +1408,7 @@ input[type=date] {
   background-position: center 25px;
   background-repeat: no-repeat; }
 
-input[type=submit] {
+input[type=submit]{
   border: none;
   padding: 15px 43px;
   margin-top: 24px;
@@ -1426,8 +1426,14 @@ input[type=submit] {
   width: 193px;
   margin-top: 56px; }
 
-.search-form input[type=submit] {
-  width: 171px; }
+.search-form button {
+  border: none;
+  padding: 15px 43px;
+  margin-top: 24px;
+  font-size: 19px;
+  width: 100%;
+  display: inline-block;
+  float: right;}
 
 .has-error .help-block {
   visibility: visible; }
