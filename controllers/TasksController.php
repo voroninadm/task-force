@@ -5,8 +5,13 @@ namespace app\controllers;
 
 
 use app\models\Category;
+use app\models\File;
+use app\models\Response;
+use app\models\TaskFile;
 use app\models\TaskFilterForm;
 use app\services\TasksFilterServices;
+use taskforce\classes\exceptions\NotFoundHttpException;
+use app\models\Task;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -14,7 +19,11 @@ use yii\web\Controller;
 class TasksController extends Controller
 {
 
-    public function actionIndex(): ?string
+    /**
+     * to new tasks page
+     * @return string
+     */
+    public function actionIndex(): string
     {
         $this->view->title = 'Новые задания';
 
@@ -43,6 +52,38 @@ class TasksController extends Controller
             'filterForm' => $filterForm,
             'categoriesList' => $categoriesList,
         ]);
+    }
+
+    /**
+     * to view $id task page
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionView(int $id): string
+    {
+        $task = Task::findOne($id);
+        if (!$task) {
+            throw new NotFoundHttpException("Задание с ID $id не найдено");
+        }
+
+        $this->view->title = "$task->title :: Taskforce";
+
+        $taskStatusNameRu = Task::STATUSES_RU[$task->status];
+
+        $responses = Response::find()
+            ->where(['task_id' => $id])
+            ->all();
+
+        $files = $task->files;
+
+        return $this->render('view',
+            [
+                'task' => $task,
+                'taskStatusNameRu' => $taskStatusNameRu,
+                'responses' => $responses,
+                'files' => $files
+            ]);
     }
 
 }

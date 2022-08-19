@@ -50,12 +50,27 @@ class User extends \yii\db\ActiveRecord
         return [
             [['name', 'city_id', 'email', 'password', 'phone', 'telegram', 'is_performer'], 'required'],
             [['birth_date', 'reg_date'], 'safe'],
-            [['city_id', 'avatar_file_id', 'done_task', 'failed_task', 'is_performer', 'is_private', 'is_busy'], 'integer'],
+            [
+                ['city_id', 'avatar_file_id', 'done_task', 'failed_task', 'is_performer', 'is_private', 'is_busy'],
+                'integer'
+            ],
             [['rating'], 'number'],
             [['name', 'email', 'password', 'phone', 'telegram'], 'string', 'max' => 255],
             [['email'], 'unique'],
-            [['avatar_file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::class, 'targetAttribute' => ['avatar_file_id' => 'id']],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::class, 'targetAttribute' => ['city_id' => 'id']],
+            [
+                ['avatar_file_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => File::class,
+                'targetAttribute' => ['avatar_file_id' => 'id']
+            ],
+            [
+                ['city_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => City::class,
+                'targetAttribute' => ['city_id' => 'id']
+            ],
         ];
     }
 
@@ -152,5 +167,34 @@ class User extends \yii\db\ActiveRecord
     public function getUserCategories()
     {
         return $this->hasMany(UserCategory::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for user-performer.
+     *
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReviews(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Review::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Calc user age
+     * @return int years
+     */
+    public function getAge(): int
+    {
+        return date_diff(date_create($this->birth_date), date_create('now'))->y;
+    }
+
+    /**
+     * Get user rating place
+     * @return int
+     */
+    public function getRatingPlace(): int
+    {
+        return self::find()->where(['>', 'rating', $this->rating])->count() +1;
     }
 }
