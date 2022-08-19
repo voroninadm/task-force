@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8644615e2ff6d8b2b7ef498d875ee369",
+    "content-hash": "ef9d3df324c7938a14f8a70e67c8af0c",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1048,6 +1048,124 @@
                 }
             ],
             "time": "2022-05-17T05:48:52+00:00"
+        },
+        {
+            "name": "wapmorgan/morphos",
+            "version": "3.2.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wapmorgan/Morphos.git",
+                "reference": "5550474d1cc6c8936bca66e86fee43f19c73a41a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wapmorgan/Morphos/zipball/5550474d1cc6c8936bca66e86fee43f19c73a41a",
+                "reference": "5550474d1cc6c8936bca66e86fee43f19c73a41a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "php": ">=7.3",
+                "phpunit/phpunit": "~9.5.20"
+            },
+            "suggest": {
+                "ext-readline": "For using interactive version of script"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/English/functions.php",
+                    "src/Russian/functions.php"
+                ],
+                "psr-4": {
+                    "morphos\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Vanyushin",
+                    "email": "wapmorgan@gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "A morphological solution for Russian and English language written completely in PHP. Provides classes to inflect personal names, geographical names, decline and pluralize nouns, generate cardinal and ordinal numerals, spell out money amounts and time.",
+            "homepage": "http://morphos.io",
+            "keywords": [
+                "Numerals",
+                "adjectives",
+                "cardinal",
+                "declension",
+                "english",
+                "geographical names",
+                "human-friendly",
+                "inflection",
+                "language",
+                "money",
+                "morphology",
+                "nouns",
+                "ordinal",
+                "personal names",
+                "pluralization",
+                "russian",
+                "spelling",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/wapmorgan/Morphos/issues",
+                "source": "https://github.com/wapmorgan/Morphos/tree/3.2.26"
+            },
+            "time": "2022-07-10T00:41:40+00:00"
+        },
+        {
+            "name": "wapmorgan/yii2-inflection",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wapmorgan/yii2-inflection.git",
+                "reference": "25b5de8f7c49333103f425e18e6056c63aafce22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wapmorgan/yii2-inflection/zipball/25b5de8f7c49333103f425e18e6056c63aafce22",
+                "reference": "25b5de8f7c49333103f425e18e6056c63aafce22",
+                "shasum": ""
+            },
+            "require": {
+                "wapmorgan/morphos": "~3.2.3",
+                "yiisoft/yii2": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "wapmorgan\\yii2inflection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "description": "Inflection extension for Yii2. Support for English / Russian languages to inflect words / names / numbers / money / date&time.",
+            "keywords": [
+                "english",
+                "inflection",
+                "russian",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/wapmorgan/yii2-inflection/issues",
+                "source": "https://github.com/wapmorgan/yii2-inflection/tree/master"
+            },
+            "time": "2018-03-26T03:15:46+00:00"
         },
         {
             "name": "yiisoft/yii2",

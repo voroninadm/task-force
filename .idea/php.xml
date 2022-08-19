@@ -90,6 +90,8 @@
       <path value="$PROJECT_DIR$/vendor/bower-asset/yii2-pjax" />
       <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/yiisoft/yii2-twig" />
+      <path value="$PROJECT_DIR$/vendor/wapmorgan/yii2-inflection" />
+      <path value="$PROJECT_DIR$/vendor/wapmorgan/morphos" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

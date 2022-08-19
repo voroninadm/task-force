@@ -74,6 +74,11 @@ $config = [
             'rules' => [
             ],
         ],
+        // for pluralize and other things
+        'inflection' => [
+            'class' => 'wapmorgan\yii2inflection\Inflection',
+            'language' => 'ru_RU'
+        ]
     ],
     'params' => $params,
 ];

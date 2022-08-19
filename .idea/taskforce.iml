@@ -93,6 +93,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/yii2-pjax" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-twig" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/wapmorgan/yii2-inflection" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/wapmorgan/morphos" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -40,7 +40,7 @@ use yii\helpers\Url;
                 <div class="stars-rating small">
                     <?= RatingStars::widget(['rating' => floor($response->user->rating)]) ?>
                 </div>
-                <p class="reviews"><?= count($response->user->reviews) ?></p>
+                <p class="reviews"><?=Yii::$app->inflection->pluralize(count($response->user->reviews), 'отзыв')  ?></p>
             </div>
             <p class="response-message">
                 <?= Html::encode($response->comment) ?>
