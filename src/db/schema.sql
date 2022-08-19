@@ -119,8 +119,10 @@ CREATE TABLE review
     create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     grade       INT UNSIGNED NOT NULL,
     task_id     INT          NOT NULL,
+    user_id     INT          NOT NULL,
 
     FOREIGN KEY (task_id) REFERENCES task (id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES user (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- отклики на задания

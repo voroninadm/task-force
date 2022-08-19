@@ -1,20 +1,23 @@
 <?php
 
 /**
- * @var Task[] $model
+ * @var Task $model
  * @var $this View
  */
 
 use app\models\Task;
 use yii\helpers\BaseStringHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 
 ?>
 
 <div class="task-card">
     <div class="header-task">
-        <a href="#" class="link link--block link--big"><?= Html::encode($model->title); ?></a>
+        <a href="<?= Url::to(['/tasks/view/', 'id' => $model->id]); ?>" class="link link--block link--big">
+            <?= Html::encode($model->title); ?>
+        </a>
         <p class="price price--task"><?= Html::encode($model->price); ?> ₽</p>
     </div>
     <p class="info-text">
@@ -26,6 +29,6 @@ use yii\web\View;
             <p class="info-text town-text"><?= Html::encode($model->address); ?></p>
         <?php endif; ?>
         <p class="info-text category-text"><?= Html::encode($model->category->name) ?></p>
-        <a href="#" class="button button--black">Смотреть Задание</a>
+        <a href="<?= Url::to(['/tasks/view/', 'id' => $model->id]); ?>" class="button button--black">Смотреть Задание</a>
     </div>
 </div>

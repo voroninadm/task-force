@@ -430,7 +430,10 @@ template {
 
 .head-main {
   font-size: 30px;
-  margin-bottom: 27px; }
+  margin-bottom: 27px;
+  max-width: 550px;
+  line-height: 1.2;
+}
 
 .head-regular {
   font-size: 24px;

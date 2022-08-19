@@ -22,7 +22,7 @@ use yii\widgets\ListView;
     <h3 class="head-main head-task">Новые задания</h3>
     <?= ListView::widget([
         'dataProvider' => $tasksDataProvider,
-        'itemView' => '_tasks',
+        'itemView' => '_task',
         'itemOptions' => [
             'tag' => false
         ],

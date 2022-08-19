@@ -40,6 +40,14 @@ class Task extends \yii\db\ActiveRecord
     const STATUS_DONE = 'done';
     const STATUS_FAILED = 'failed';
 
+    const STATUSES_RU = [
+        self::STATUS_NEW => 'Новое задание',
+        self::STATUS_CANCELED => 'Задание отменено',
+        self::STATUS_IN_WORK => 'Задание в работе',
+        self::STATUS_DONE => 'Задание завершено',
+        self::STATUS_FAILED => 'Задание провалено'
+    ];
+
 
     /**
      * {@inheritdoc}

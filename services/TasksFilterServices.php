@@ -24,7 +24,7 @@ class TasksFilterServices
         }
 
         if ((int) $form->period !== 0) {
-            $query->andWhere("public_date > NOW() - INTERVAL :period DAY", [
+            $query->andWhere("public_date > NOW() - INTERVAL :period HOUR", [
                 ':period' => (int) $form->period]);
         }
 
