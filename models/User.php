@@ -48,7 +48,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'city_id', 'email', 'password', 'phone', 'telegram', 'is_performer'], 'required'],
+            [['name', 'city_id', 'email', 'password', 'is_performer'], 'required'],
             [['birth_date', 'reg_date'], 'safe'],
             [
                 ['city_id', 'avatar_file_id', 'done_task', 'failed_task', 'is_performer', 'is_private', 'is_busy'],

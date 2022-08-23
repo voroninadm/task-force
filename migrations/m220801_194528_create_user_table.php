@@ -16,7 +16,7 @@ class m220801_194528_create_user_table extends Migration
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
-            'birth_date' => $this->timestamp(),
+            'birth_date' => $this->timestamp()->null(),
             'city_id' => $this->integer()->notNull(),
             'reg_date' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
             'avatar_file_id' => $this->integer()->null(),

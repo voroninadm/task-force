@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "city".
@@ -68,5 +69,15 @@ class City extends \yii\db\ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(User::class, ['city_id' => 'id']);
+    }
+
+    /**
+     * Find all cities
+     * @return array
+     */
+    public static function getCitiesList()
+    {
+        $citiesList = City::find()->asArray()->all();
+        return ArrayHelper::map($citiesList, 'id', 'name');
     }
 }
