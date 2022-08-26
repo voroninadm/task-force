@@ -55,7 +55,7 @@ AppAsset::register($this);
                 <img class="user-photo" src="/img/man-glasses.png" width="55" height="55" alt="Аватар">
             </a>
             <div class="user-menu">
-                <p class="user-name"><?= $user->name ?></p>
+                <p class="user-name"><?= Html::encode($user->name) ?></p>
                 <div class="popup-head">
                     <ul class="popup-menu">
                         <li class="menu-item">
