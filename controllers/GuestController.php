@@ -7,7 +7,7 @@ namespace app\controllers;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
-class SecuredController extends Controller
+class GuestController extends Controller
 {
     public function behaviors(): array
     {
@@ -17,7 +17,14 @@ class SecuredController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
+                        'roles' => ['?']
+                    ],
+                    [
+                        'allow' => false,
                         'roles' => ['@'],
+                        'denyCallback' => function ($rule, $action) {
+                            return $this->redirect(['/tasks']);
+                        }
                     ]
                 ]
             ]

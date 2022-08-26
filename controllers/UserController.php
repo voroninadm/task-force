@@ -7,9 +7,10 @@ namespace app\controllers;
 use app\models\Review;
 use app\models\User;
 use taskforce\classes\exceptions\NotFoundHttpException;
+use Yii;
 use yii\web\Controller;
 
-class UserController extends Controller
+class UserController extends SecuredController
 {
     public function actionView(int $id): string
     {
@@ -29,5 +30,11 @@ class UserController extends Controller
             'categories' => $user->categories,
             'reviews' => $reviews
         ]);
+    }
+
+    public function actionLogout(): void {
+        Yii::$app->user->logout();
+
+        $this->redirect(['/landing']);
     }
 }

@@ -6,20 +6,17 @@ namespace app\controllers;
 
 use app\models\LoginForm;
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
 
-class LandingController extends SecuredController
+class LandingController extends GuestController
 {
     public $layout = 'landing';
 
     public function actionIndex(): string|array
     {
         $loginForm = new LoginForm();
-
-
 
         //Ajax form validation
         if (Yii::$app->request->isAjax && $loginForm->load(Yii::$app->request->post())) {
@@ -36,6 +33,7 @@ class LandingController extends SecuredController
         }
 
         $this->view->title = 'Главная || TaskForce';
+
         return $this->render('index',[
             'loginForm' => $loginForm
         ]);

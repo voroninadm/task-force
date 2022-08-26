@@ -14,7 +14,6 @@ use taskforce\classes\exceptions\NotFoundHttpException;
 use app\models\Task;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 
 class TasksController extends SecuredController
 {

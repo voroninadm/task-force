@@ -9,11 +9,10 @@ use app\models\RegistrationForm;
 use app\models\User;
 use taskforce\classes\exceptions\FormException;
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class RegistrationController extends Controller
+class RegistrationController extends GuestController
 {
     public function actionIndex(): array|string
     {

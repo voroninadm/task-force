@@ -183,6 +183,7 @@ use yii\widgets\ActiveForm; ?>
         <h2>Вход на сайт</h2>
         <?php $form = ActiveForm::begin([
             'id' => 'loginForm',
+            'enableAjaxValidation' => true,
             'fieldConfig' => [
                 'labelOptions' => [
                     'class' => 'form-modal-description',
@@ -193,7 +194,7 @@ use yii\widgets\ActiveForm; ?>
             ]
         ]) ?>
         <p>
-            <?= $form->field($loginForm, 'email', ['enableAjaxValidation' => true])->textInput(['type' => 'email']) ?>
+            <?= $form->field($loginForm, 'email')->textInput(['type' => 'email']) ?>
         </p>
         <p>
         <?= $form->field($loginForm, 'password')->passwordInput() ?>
