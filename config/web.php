@@ -80,7 +80,7 @@ $config = [
         'inflection' => [
             'class' => 'wapmorgan\yii2inflection\Inflection',
             'language' => 'ru_RU'
-        ]
+        ],
     ],
     'params' => $params,
 ];

@@ -83,7 +83,6 @@ use yii\widgets\ListView;
             <h4 class="head-card">Дополнительно</h4>
 
             <?= $form->field($filterForm, 'withoutPerformer')->checkbox([
-                'label' => 'Без исполнителя',
                 'labelOptions' => ['class' => 'control-label']
             ], true); ?>
 

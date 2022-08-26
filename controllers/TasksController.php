@@ -16,7 +16,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
-class TasksController extends Controller
+class TasksController extends SecuredController
 {
 
     /**

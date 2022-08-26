@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="half-wrapper">
             <div class="form-group">
-                <?= $form->field($regForm, 'email') ?>
+                <?= $form->field($regForm, 'email')->textInput(['type' => 'email']) ?>
             </div>
             <div class="form-group">
                 <?= $form->field($regForm, 'city_id')->dropDownList($citiesList) ?>

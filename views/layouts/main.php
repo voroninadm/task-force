@@ -14,7 +14,7 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,7 +23,6 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body>
 <?php $this->beginBody() ?>
 
 <?php if(!str_contains(Yii::$app->request->url, 'registration')) : ?>
