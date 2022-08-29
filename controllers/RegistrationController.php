@@ -33,6 +33,7 @@ class RegistrationController extends GuestController
             $user = new User();
             $user->loadDefaultValues();
             $user->name = $regForm->name;
+            $user->avatar_file_id = Yii::$app->params['userDefaultAvatarPath'];
             $user->city_id = $regForm->city_id;
             $user->email = $regForm->email;
             $user->password = Yii::$app->security->generatePasswordHash($regForm->password);
