@@ -13,6 +13,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'defaultRoute' => '/tasks', //default route
     'components' => [
         // twig configs
         'view' => [
@@ -42,6 +43,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['/landing'] // to site for guests
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -80,7 +82,7 @@ $config = [
         'inflection' => [
             'class' => 'wapmorgan\yii2inflection\Inflection',
             'language' => 'ru_RU'
-        ]
+        ],
     ],
     'params' => $params,
 ];

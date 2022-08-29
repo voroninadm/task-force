@@ -53,7 +53,7 @@ use yii\helpers\Url;
                     <span class="age-info"><?= $user->age ?></span>
                     лет
                 <?php else: ?>
-                    <span><i>Возраст не указан></i></span>
+                    <span><i>Возраст не указан</i></span>
                 <?php endif; ?>
             </p>
         </div>
