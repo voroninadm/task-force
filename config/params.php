@@ -6,5 +6,6 @@ return [
     'senderName' => 'Example.com mailer',
 
     'tasksListSize' => 5,   //tasks per page for pagination
-    'defaultAvatarPath' => "/img/avatars/1.png" // default user avatar
+    'starRating'=> 5,   //stars count for widget rating
+    'userDefaultAvatarPath' => "/img/avatars/1.png" // default user avatar
 ];

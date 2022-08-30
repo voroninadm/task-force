@@ -9,11 +9,10 @@ use app\models\RegistrationForm;
 use app\models\User;
 use taskforce\classes\exceptions\FormException;
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class RegistrationController extends Controller
+class RegistrationController extends GuestController
 {
     public function actionIndex(): array|string
     {
@@ -34,6 +33,7 @@ class RegistrationController extends Controller
             $user = new User();
             $user->loadDefaultValues();
             $user->name = $regForm->name;
+            $user->avatar_file_id = Yii::$app->params['userDefaultAvatarPath'];
             $user->city_id = $regForm->city_id;
             $user->email = $regForm->email;
             $user->password = Yii::$app->security->generatePasswordHash($regForm->password);

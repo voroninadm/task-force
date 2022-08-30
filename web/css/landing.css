@@ -615,7 +615,7 @@ footer {
   padding-bottom: 14px;
   padding-right: 16px;
   padding-left: 16px;
-  margin-bottom: 35px; }
+  margin-bottom: 5px; }
 
 .multiple-select {
   padding-top: 14px;
@@ -2582,5 +2582,6 @@ footer {
   border-color: #FF116E; }
 
 .has-error div {
-  color: #FF116E; }
+  color: #FF116E;
+  font-size: 12px}
 /*# sourceMappingURL=style.css.map */

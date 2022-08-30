@@ -4,6 +4,7 @@
 namespace app\widgets;
 
 
+use Yii;
 use yii\base\Widget;
 
 /**
@@ -14,11 +15,10 @@ use yii\base\Widget;
 class RatingStars extends Widget
 {
     public float $rating;
-    const STAR_RATING = 5;
 
     public function run()
     {
-        for ($i = 1; $i <= self::STAR_RATING; $i++) {
+        for ($i = 1; $i <= Yii::$app->params['starRating']; $i++) {
             if ($this->rating >= $i) {
                 echo '<span class="fill-star">&nbsp;</span>';
             } else {
