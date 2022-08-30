@@ -86,4 +86,11 @@ class TasksController extends Controller
             ]);
     }
 
+    public function actionCreate()
+    {
+        $this->view->title = "Новое задание :: Taskforce";
+
+        return $this->render('create');
+    }
+
 }
