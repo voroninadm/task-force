@@ -64,7 +64,7 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             [['public_date', 'deadline'], 'safe'],
-            [['status', 'title', 'description', 'category_id', 'city_id', 'lat', 'lng', 'customer_id'], 'required'],
+            [['status', 'title', 'description', 'category_id', 'customer_id'], 'required'],
             [['category_id', 'city_id', 'price', 'customer_id', 'performer_id'], 'integer'],
             [['lat', 'lng'], 'number'],
             [['status', 'title', 'description', 'address'], 'string', 'max' => 255],

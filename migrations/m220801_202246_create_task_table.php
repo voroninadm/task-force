@@ -22,10 +22,10 @@ class m220801_202246_create_task_table extends Migration
             'category_id' => $this->integer()->notNull(),
             'city_id' => $this->integer()->notNull(),
             'address' => $this->string()->null(),
-            'lat' => $this->decimal(11,8)->notNull(),
-            'lng' => $this->decimal(11,8)->notNull(),
+            'lat' => $this->decimal(11,8)->null(),
+            'lng' => $this->decimal(11,8)->null(),
             'price' => $this->integer()->null(),
-            'deadline' => $this->timestamp(),
+            'deadline' => $this->date()->null(),
             'customer_id' => $this->integer()->notNull(),
             'performer_id' => $this->integer()->null()
         ]);
