@@ -1,0 +1,14 @@
+
+                <!--Вводим значение разности дат
+                <td>
+                    <!--Вводим значение разности дат
+                    <?php
+                    /*$start_date = new DateTime($qu[1]);
+                    $end_date = new DateTime($qu[2]);
+                    $interval =$end_date->diff($start_date);
+                    echo $interval->d.' дн.<br>', $interval->h.' час.<br>', $interval->i.' мин.<br>';
+                    */
+                    ?>
+                    /td>
+                    -->
+                    <!--Продолжение вывода значений из базы-->

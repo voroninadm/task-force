@@ -42,7 +42,7 @@ AppAsset::register($this);
                         <a href="#" class="link link--nav">Мои задания</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="link link--nav">Создать задание</a>
+                        <a href="<?= Url::to(['tasks/create']) ?>" class="link link--nav">Создать задание</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="link link--nav">Настройки</a>
@@ -51,7 +51,7 @@ AppAsset::register($this);
             </div>
         </nav>
         <div class="user-block">
-            <a href="<?=Url::to("/user/view/$user->id") ?>">
+            <a href="<?= Url::to("/user/view/$user->id") ?>">
                 <img class="user-photo" src="<?= $user->avatarFile->url ?>" width="55" height="55" alt="Аватар">
             </a>
             <div class="user-menu">
@@ -75,8 +75,11 @@ AppAsset::register($this);
     </header>
 <?php endif; ?>
 
-<main class="main-content container">
+<main class="main-content container
+<?= (str_contains(Yii::$app->request->url, 'create')) ? 'main-content--center' : '' ?>" >
+
     <?= $content ?>
+
 </main>
 
 <?php $this->endBody() ?>

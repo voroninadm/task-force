@@ -1,4 +1,5 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const overlay = document.querySelector('.overlay');
 const popup = document.querySelector('.pop-up');
 const imgPreviewElement = document.querySelector('.avatar-preview');

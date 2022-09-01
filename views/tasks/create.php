@@ -1,49 +1,46 @@
 <?php
+
+/**
+ * @var CreateTaskForm $createTaskForm
+ * @var CreateTaskForm $categoriesList
+ */
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 ?>
 
 <div class="add-task-form regular-form">
-    <form>
-        <h3 class="head-main head-main">Публикация нового задания</h3>
-        <div class="form-group">
-            <label class="control-label" for="essence-work">Опишите суть работы</label>
-            <input id="essence-work" type="text">
-            <span class="help-block">Error description is here</span>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="username">Подробности задания</label>
-            <textarea id="username"></textarea>
-            <span class="help-block">Error description is here</span>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="town-user">Категория</label>
-            <select id="town-user">
-                <option>Курьерские услуги</option>
-                <option>Грузоперевозки</option>
-                <option>Клининг</option>
-            </select>
-            <span class="help-block">Error description is here</span>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="location">Локация</label>
-            <input class="location-icon" id="location" type="text">
-            <span class="help-block">Error description is here</span>
-        </div>
-        <div class="half-wrapper">
-            <div class="form-group">
-                <label class="control-label" for="budget">Бюджет</label>
-                <input class="budget-icon" id="budget" type="text">
-                <span class="help-block">Error description is here</span>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="period-execution">Срок исполнения</label>
-                <input id="period-execution" type="date">
-                <span class="help-block">Error description is here</span>
-            </div>
-        </div>
-        <p class="form-label">Файлы</p>
-        <div class="new-file">
-            Добавить новый файл
-        </div>
-        <input type="submit" class="button button--blue" value="Опубликовать">
-    </form>
+    <?php $form = ActiveForm::begin([
+        'id' => 'CreateTaskForm',
+        'enableAjaxValidation' => true,
+        'fieldConfig' => [
+            'errorOptions' => [
+                'tag' => 'span',
+                'class' => 'help-block'
+            ]
+        ]
+    ]); ?>
+
+    <h3 class="head-main head-main">Публикация нового задания</h3>
+    <?= $form->field($createTaskForm, 'title') ?>
+    <?= $form->field($createTaskForm, 'description')->textarea() ?>
+    <?= $form->field($createTaskForm, 'category_id')->dropDownList($categoriesList) ?>
+
+    <div class="form-group">
+        <label class="control-label" for="location">Локация</label>
+        <input class="location-icon" id="location" type="text">
+        <span class="help-block">Error description is here</span>
+    </div>
+    <div class="half-wrapper">
+        <?= $form->field($createTaskForm, 'price')->input('number', ['min' => 1]) ?>
+        <?= $form->field($createTaskForm, 'deadline')->input('date', ['min' => date('Y-m-d')]) ?>
+    </div>
+    <p class="form-label">Файлы</p>
+    <?= $form->field($createTaskForm, 'files[]')
+        ->fileInput(['multiple' => true, 'class' => 'new-file'])
+        ->label(false)
+    ?>
+    <?= Html::submitButton('Опубликовать', ['class' => 'button button--blue']) ?>
+    <?php ActiveForm::end() ?>
 </div>

@@ -1,0 +1,20 @@
+https://www.gastronom.ru/recipe/17080/ryba-v-teste-filo
+
+https://www.gastronom.ru/recipe/27007/bisk-iz-rakov
+https://www.gastronom.ru/recipe/41131/gaspacho-tomatnyj-s-fenhelem
+
+https://www.gastronom.ru/recipe/2143/fenhel-po-zhenevski
++ от марко рецепт
+
+
+Адрес и порт электронного реестра (блокчейн):
+pg2021-blockchain.er.ru:40940
+
+Идентификатор транзакции:
+c0f8e783e701aa549234c86441394400427d78f6469145a0b7276586aeaff55b
+
+Ваш публичный ключ:
+1AUjBLiYqXqLZPJEqHmAWLCgHk1JKbwXR5
+
+Ваш приватный ключ:
+7d2d214c34d74276c1b01990401faaf20f051ce89d1635ebed42866efcc46f31
