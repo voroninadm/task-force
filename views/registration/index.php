@@ -45,7 +45,8 @@ use yii\widgets\ActiveForm;
             <?= $form->field($regForm, 'is_performer')
                 ->checkbox(['checked' => true,
                             'label' => 'я собираюсь откликаться на заказы',
-                            ['labelOptions' => ['class' => 'control-label checkbox-label']]]);
+                            'labelOptions' => ['class' => 'control-label checkbox-label']
+                ]);
             ?>
         </div>
         <?= Html::submitButton('Создать аккаунт', ['class' => 'button button--blue']) ?>

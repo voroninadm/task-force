@@ -7,6 +7,6 @@ return [
 
     'tasksListSize' => 5,   //tasks per page for pagination
     'starRating'=> 5,   //stars count for widget rating
-    'userDefaultAvatarPath' => "/img/avatars/1.png", // default user avatar
+    'userDefaultAvatarPath' => '/img/avatars/1.png', // default user avatar
     'maxFilesToTask' => 5, //max files to create task
 ];

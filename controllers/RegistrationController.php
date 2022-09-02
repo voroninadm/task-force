@@ -33,17 +33,33 @@ class RegistrationController extends GuestController
             $user = new User();
             $user->loadDefaultValues();
             $user->name = $regForm->name;
-            $user->avatar_file_id = Yii::$app->params['userDefaultAvatarPath'];
+            $user->avatar_file_id = 1;
             $user->city_id = $regForm->city_id;
             $user->email = $regForm->email;
             $user->password = Yii::$app->security->generatePasswordHash($regForm->password);
-            $user->is_performer = $regForm->is_performer;
+            $user->is_performer = intval($regForm->is_performer);
 
             if($user->save()) {
-                $this->redirect('tasks');
+                // role to new registered user
+                $auth = Yii::$app->authManager;
+                $customerRole = $auth->getRole('customer');
+                $performerRole = $auth->getRole('performer');
+
+                if ($user->is_performer === User::ROLE_CUSTOMER) {
+                    $auth->assign($customerRole, $user->id);
+                }
+
+                if ($user->is_performer === User::ROLE_PERFORMER) {
+                    $auth->assign($performerRole, $user->id);
+                }
+
+                //auto login when registration is successful
+                $identity = User::findOne($user->id);
+                Yii::$app->user->login($identity);
             } else {
                 throw new FormException('Не удалось добавить пользователя');
             }
+            $this->redirect('/tasks');
         }
 
         return $this->render('index',[

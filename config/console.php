@@ -26,6 +26,10 @@ $config = [
             ],
         ],
         'db' => $db,
+        //for rbac DbManager
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'params' => $params,
     // --faker configs

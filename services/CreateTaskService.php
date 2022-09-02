@@ -15,7 +15,7 @@ class CreateTaskService
         $task = new Task();
         $task->loadDefaultValues();
 
-        $task->status = 'new';
+        $task->status = Task::STATUS_NEW;
         $task->customer_id = Yii::$app->user->id;
         $task->title = $form->title;
         $task->description = $form->description;

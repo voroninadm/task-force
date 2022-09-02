@@ -36,6 +36,12 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public const STATUS_FREE = 0;
+    public const STATUS_BUSY = 1;
+    public const ROLE_CUSTOMER = 0;
+    public const ROLE_PERFORMER = 1;
+
+
     /**
      * {@inheritdoc}
      */
@@ -197,7 +203,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getRatingPlace(): int
     {
-        return self::find()->where(['>', 'rating', $this->rating])->count() +1;
+        return self::find()->where(['>', 'rating', $this->rating])->count() + 1;
     }
 
     public function validatePassword($password)
@@ -205,7 +211,7 @@ class User extends ActiveRecord implements IdentityInterface
         return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
-    //interface methods
+    //===interface methods
     public static function findIdentity($id)
     {
         return self::findOne($id);

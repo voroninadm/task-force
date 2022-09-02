@@ -18,7 +18,7 @@ use yii\web\View;
         <a href="<?= Url::to(['/tasks/view/', 'id' => $model->id]); ?>" class="link link--block link--big">
             <?= Html::encode($model->title); ?>
         </a>
-        <p class="price price--task"><?= Html::encode($model->price); ?> ₽</p>
+        <p class="price price--task"><?= !empty($model->price) ? Html::encode($model->price) . " ₽" : ''; ?> </p>
     </div>
     <p class="info-text">
         <span class="current-time"><?= Yii::$app->formatter->asRelativeTime($model->public_date); ?></span>
