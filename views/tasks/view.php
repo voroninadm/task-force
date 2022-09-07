@@ -2,11 +2,15 @@
 /**
  * @var Task $task
  * @var Task $taskStatusNameRu
+ * @var TasksController $responses
+ * @var ReviewController $reviewForm
  */
 
 use app\widgets\RatingStars;
+use kartik\rating\StarRating;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 ?>
 
@@ -20,8 +24,9 @@ use yii\helpers\Url;
     <p class="task-description"><?= Html::encode($task->description) ?></p>
     <a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>
     <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
-    <?php if ($task->customer_id === Yii::$app->user->id) :?>
-    <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
+    <?php if ($task->customer_id === Yii::$app->user->id) : ?>
+        <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
+        <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
     <?php endif; ?>
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="Новый арбат, 23, к. 1">
@@ -29,41 +34,49 @@ use yii\helpers\Url;
         <p class="map-address">Новый арбат, 23, к. 1</p>
     </div>
 
-    <h4 class="head-regular">Отклики на задание</h4>
-    <?php if (!empty($responses)) : ?>
-    <?php foreach ($responses as $response): ?>
-    <div class="response-card">
-        <img class="customer-photo" src="<?= $response->user->avatarFile->url ?>" width="146" height="156"
-             alt="Фото заказчиков">
-        <div class="feedback-wrapper">
-            <a href="<?= Url::to(['user/view', 'id' => $response->user_id]) ?>"
-               class="link link--block link--big"><?= Html::encode($response->user->name) ?></a>
-            <div class="response-wrapper">
-                <div class="stars-rating small">
-                    <?= RatingStars::widget(['rating' => floor($response->user->rating)]) ?>
-                </div>
-                <p class="reviews"><?=Yii::$app->inflection->pluralize(count($response->user->reviews), 'отзыв')  ?></p>
-            </div>
-            <p class="response-message">
-                <?= Html::encode($response->comment) ?>
-            </p>
-        </div>
-        <div class="feedback-wrapper">
-            <p class="info-text">
+    <?php if (Yii::$app->user->id === $task->customer_id
+        || in_array(Yii::$app->user->id, array_column($responses, 'user_id'))): ?>
+        <h4 class="head-regular">Отклики на задание</h4>
+        <?php if (!empty($responses)) : ?>
+            <?php foreach ($responses as $response): ?>
+                <?php if (Yii::$app->user->id === $task->customer_id || Yii::$app->user->id === $response->user_id): ?>
+                    <div class="response-card">
+                        <img class="customer-photo" src="<?= $response->user->avatarFile->url ?>" width="146"
+                             height="156"
+                             alt="Фото заказчиков">
+                        <div class="feedback-wrapper">
+                            <a href="<?= Url::to(['user/view', 'id' => $response->user_id]) ?>"
+                               class="link link--block link--big"><?= Html::encode($response->user->name) ?></a>
+                            <div class="response-wrapper">
+                                <div class="stars-rating small">
+                                    <?= RatingStars::widget(['rating' => floor($response->user->rating)]) ?>
+                                </div>
+                                <p class="reviews"><?= Yii::$app->inflection->pluralize(count($response->user->reviews),
+                                        'отзыв') ?></p>
+                            </div>
+                            <p class="response-message">
+                                <?= Html::encode($response->comment) ?>
+                            </p>
+                        </div>
+                        <div class="feedback-wrapper">
+                            <p class="info-text">
                 <span class="current-time"><?= Yii::$app->formatter->asRelativeTime($response->create_date); ?>
-            </p>
-            <p class="price price--small"><?= Html::encode($response->price) ?> ₽</p>
-        </div>
-        <div class="button-popup">
-            <a href="#" class="button button--blue button--small">Принять</a>
-            <a href="#" class="button button--orange button--small">Отказать</a>
-        </div>
-        <?php endforeach; ?>
+                            </p>
+                            <p class="price price--small"><?= Html::encode($response->price) ?> ₽</p>
+                        </div>
+                        <?php if (Yii::$app->user->can('customerCanAcceptResponse', ['task' => $task])): ?>
+                            <div class="button-popup">
+                                <a href="#" class="button button--blue button--small">Принять</a>
+                                <a href="#" class="button button--orange button--small">Отказать</a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         <?php else: ?>
             <p> У задания пока нет откликов </p>
         <?php endif; ?>
-    </div>
-
+    <?php endif; ?>
 </div>
 
 <div class="right-column">
@@ -103,15 +116,15 @@ use yii\helpers\Url;
 
 </main>
 
-<section class="pop-up pop-up--refusal pop-up--close">
+<section class="pop-up pop-up--cancel pop-up--close">
     <div class="pop-up--wrapper">
-        <h4>Отказ от задания</h4>
+        <h4>Отмена задания</h4>
         <p class="pop-up-text">
             <b>Внимание!</b><br>
-            Вы собираетесь отказаться от выполнения этого задания.<br>
-            Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.
+            Вы собираетесь отменить это задание.<br>
+            Задание будет переведено в статус "Отменено" <br> и недоступно для дальнейших действий
         </p>
-        <a class="button button--pop-up button--orange">Отказаться</a>
+        <a class="button button--pop-up button--yellow" href="<?= Url::toRoute(['tasks/cancel', 'id' => $task->id]) ?>">Отменить</a>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>
@@ -126,18 +139,72 @@ use yii\helpers\Url;
             Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.
         </p>
         <div class="completion-form pop-up--form regular-form">
-            <form>
-                <div class="form-group">
-                    <label class="control-label" for="completion-comment">Ваш комментарий</label>
-                    <textarea id="completion-comment"></textarea>
-                </div>
-                <p class="completion-head control-label">Оценка работы</p>
-                <div class="stars-rating big active-stars">
-                    <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span>
-                </div>
-                <input type="submit" class="button button--pop-up button--blue" value="Завершить">
-            </form>
+            <?php $form = ActiveForm::begin([
+                'action' => ['review/create'],
+                'id' => 'reviewForm',
+                'enableAjaxValidation' => true
+            ]) ?>
+            <?= $form->field($reviewForm, 'task_id', [
+                'template' => '{input}',
+                'options' => ['tag' => false],
+            ])->hiddenInput(['value' => $task->id]) ?>
+
+            <?= $form->field($reviewForm, 'author_id', [
+                'template' => '{input}',
+                'options' => ['tag' => false],
+            ])->hiddenInput(['value' => $task->customer_id]) ?>
+
+            <?= $form->field($reviewForm, 'user_id', [
+                'template' => '{input}',
+                'options' => ['tag' => false],
+            ])->hiddenInput(['value' => $task->performer_id]) ?>
+
+            <?= $form->field($reviewForm, 'description')->textarea() ?>
+
+            <p class="completion-head control-label">Оценка работы</p>
+
+            <?= $form->field($reviewForm, 'grade')->widget(StarRating::class, [
+                'pluginOptions' => [
+                    'containerClass' => 'stars-rating',
+                    'size' => 'sm',
+                    'min' => 0,
+                    'max' => 5,
+                    'step' => 1,
+                    'starCaptions' => [
+                        1 => 'Хуже некуда',
+                        2 => 'Плохо',
+                        3 => 'Средне',
+                        4 => 'Хорошо',
+                        5 => 'Замечательно',
+
+                    ],                ]
+            ]) ->label(false);?>
+
+            <?= $form->field($reviewForm, 'rate', [
+                'template' => '{input}',
+                'options' => [
+                    'tag' => false
+                ],
+            ])->hiddenInput(['value' => '']) ?>
+
+            <?= Html::submitButton('Завершить', ['class' => 'button button--pop-up button--blue']) ?>
+            <?php ActiveForm::end() ?>
         </div>
+        <div class="button-container">
+            <button class="button--close" type="button">Закрыть окно</button>
+        </div>
+    </div>
+</section>
+
+<section class="pop-up pop-up--refusal pop-up--close">
+    <div class="pop-up--wrapper">
+        <h4>Отказ от задания</h4>
+        <p class="pop-up-text">
+            <b>Внимание!</b><br>
+            Вы собираетесь отказаться от выполнения этого задания.<br>
+            Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.
+        </p>
+        <a class="button button--pop-up button--orange">Отказаться</a>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>

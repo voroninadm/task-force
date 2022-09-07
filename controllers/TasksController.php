@@ -4,18 +4,18 @@
 namespace app\controllers;
 
 
+use app\models\CreateReviewForm;
 use app\models\CreateTaskForm;
 use app\models\Category;
 use app\models\File;
 use app\models\Response;
 use app\models\TaskFile;
 use app\models\TaskFilterForm;
-use app\services\CreateTaskService;
-use app\services\TasksFilterServices;
+use app\services\TaskService;
 use app\services\UploadFileService;
-use taskforce\classes\exceptions\NotFoundHttpException;
 use app\models\Task;
 use Yii;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
@@ -38,7 +38,7 @@ class TasksController extends SecuredController
         $filterForm->load(Yii::$app->request->get());
 
 
-        $query = (new TasksFilterServices())->filterTasks($filterForm);
+        $query = (new TaskService())->filterTasks($filterForm);
         $tasksDataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -59,16 +59,16 @@ class TasksController extends SecuredController
     }
 
     /**
-     * to view $id task page
+     * to view $id task at personal page
      * @param int $id
      * @return string
-     * @throws NotFoundHttpException
+     * @throws Exception
      */
     public function actionView(int $id): string
     {
         $task = Task::findOne($id);
         if (!$task) {
-            throw new NotFoundHttpException("Задание с ID $id не найдено");
+            throw new Exception("Задание с ID $id не найдено");
         }
 
         $this->view->title = "$task->title :: Taskforce";
@@ -81,16 +81,24 @@ class TasksController extends SecuredController
 
         $files = $task->files;
 
+        $reviewForm = new CreateReviewForm();
+
         return $this->render('view',
             [
                 'task' => $task,
                 'taskStatusNameRu' => $taskStatusNameRu,
                 'responses' => $responses,
-                'files' => $files
+                'files' => $files,
+                'reviewForm' => $reviewForm
             ]);
     }
 
-    public function actionCreate()
+    /**
+     * Create new task
+     * @return array|string|\yii\web\Response
+     * @throws Exception
+     */
+    public function actionCreate(): \yii\web\Response|array|string
     {
         $this->view->title = "Создать задание :: Taskforce";
 
@@ -107,7 +115,7 @@ class TasksController extends SecuredController
         //validate and create new task
         if($createTaskForm->load(Yii::$app->request->post()) && $createTaskForm->validate()) {
             $uploadedFiles = UploadedFile::getInstances($createTaskForm, 'files');
-            $task = (new CreateTaskService())->createTask($createTaskForm);
+            $task = (new TaskService())->createTask($createTaskForm);
 
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $uploadedFile) {
@@ -122,6 +130,24 @@ class TasksController extends SecuredController
             'createTaskForm' => $createTaskForm,
             'categoriesList' => $categoriesList
         ]);
+    }
+
+    public function actionCancel(int $id): \yii\web\Response
+    {
+        $task = Task::findOne($id);
+
+        if (!$task) {
+            throw new Exception("Задание с id=$id не найдено");
+        }
+
+        $user = Yii::$app->user->identity;
+        $taskService = new TaskService();
+
+        if ($user->id === $task->customer_id && $task->status === Task::STATUS_NEW) {
+            $taskService->cancelTask($task);
+        }
+
+        return $this->redirect(['tasks/view', 'id' => $id]);
     }
 
 }

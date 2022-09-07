@@ -80,4 +80,9 @@ class Response extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public static function inResponseAuthor(int $user_id, array $responses): bool
+    {
+        return in_array($user_id, $responses);
+    }
 }

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -110,7 +111,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[AvatarFile]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAvatarFile()
     {
@@ -120,7 +121,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[Categories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCategories()
     {
@@ -130,7 +131,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[City]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCity()
     {
@@ -140,7 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[Responses]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getResponses()
     {
@@ -150,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[Tasks]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTasks()
     {
@@ -160,7 +161,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[Tasks0]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getTasks0()
     {
@@ -170,7 +171,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Gets query for [[UserCategories]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUserCategories()
     {
@@ -181,9 +182,9 @@ class User extends ActiveRecord implements IdentityInterface
      * Gets query for user-performer.
      *
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getReviews(): \yii\db\ActiveQuery
+    public function getReviews(): ActiveQuery
     {
         return $this->hasMany(Review::class, ['user_id' => 'id']);
     }
@@ -209,6 +210,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return \Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    public function countUserPerformerRating(): ActiveQuery
+    {
+        return $this->hasMany(Review::class, ['user_id' => 'id']);
     }
 
     //===interface methods

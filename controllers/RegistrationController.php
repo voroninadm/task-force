@@ -6,8 +6,7 @@ namespace app\controllers;
 
 use app\models\City;
 use app\models\RegistrationForm;
-use app\models\User;
-use taskforce\classes\exceptions\FormException;
+use app\services\UserService;
 use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -28,41 +27,17 @@ class RegistrationController extends GuestController
         }
 
         //validation and saving new user
-        if($regForm->load(Yii::$app->request->post()) && $regForm->validate())
-        {
-            $user = new User();
-            $user->loadDefaultValues();
-            $user->name = $regForm->name;
-            $user->avatar_file_id = 1;
-            $user->city_id = $regForm->city_id;
-            $user->email = $regForm->email;
-            $user->password = Yii::$app->security->generatePasswordHash($regForm->password);
-            $user->is_performer = intval($regForm->is_performer);
+        if ($regForm->load(Yii::$app->request->post()) && $regForm->validate()) {
+            $userService = new UserService();
+            $user = $userService->createUser($regForm);
+            Yii::$app->user->login($user);
 
-            if($user->save()) {
-                // role to new registered user
-                $auth = Yii::$app->authManager;
-                $customerRole = $auth->getRole('customer');
-                $performerRole = $auth->getRole('performer');
-
-                if ($user->is_performer === User::ROLE_CUSTOMER) {
-                    $auth->assign($customerRole, $user->id);
-                }
-
-                if ($user->is_performer === User::ROLE_PERFORMER) {
-                    $auth->assign($performerRole, $user->id);
-                }
-
-                //auto login when registration is successful
-                $identity = User::findOne($user->id);
-                Yii::$app->user->login($identity);
-            } else {
-                throw new FormException('Не удалось добавить пользователя');
-            }
+            //auto login when registration is successful
+            Yii::$app->user->login($user);
             $this->redirect('/tasks');
         }
 
-        return $this->render('index',[
+        return $this->render('index', [
             'regForm' => $regForm,
             'citiesList' => $citiesList
 

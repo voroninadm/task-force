@@ -5,8 +5,10 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Menu;
 
 
 AppAsset::register($this);
@@ -34,22 +36,29 @@ AppAsset::register($this);
                 <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
             <div class="nav-wrapper">
-                <ul class="nav-list">
-                    <li class="list-item list-item--active">
-                        <a class="link link--nav">Новое</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="#" class="link link--nav">Мои задания</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="<?= Url::to(['tasks/create']) ?>" class="link link--nav">Создать задание</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="#" class="link link--nav">Настройки</a>
-                    </li>
-                </ul>
+                <?= Menu::widget([
+                    'options' => [
+                        'class' => 'nav-list',
+                    ],
+                    'itemOptions' => [
+                        'class' => 'list-item',
+                    ],
+                    'activeCssClass' => 'list-item--active',
+                    'items' => [
+                        ['label' => 'Новое', 'url' => ['tasks/index']],
+                        ['label' => 'Мои задания', 'url' => '#'],
+                        [
+                            'label' => 'Создать задание',
+                            'url' => ['tasks/create'],
+                            'visible' => Yii::$app->user->identity->is_performer === User::ROLE_CUSTOMER,
+                        ],
+                        ['label' => 'Настройки', 'url' => '#']
+                    ],
+                    'linkTemplate' => '<a class="link link--nav" href="{url}">{label}</a>',
+                ]) ?>
             </div>
         </nav>
+
         <div class="user-block">
             <a href="<?= Url::to("/user/view/$user->id") ?>">
                 <img class="user-photo" src="<?= $user->avatarFile->url ?>" width="55" height="55" alt="Аватар">
@@ -57,21 +66,24 @@ AppAsset::register($this);
             <div class="user-menu">
                 <p class="user-name"><?= Html::encode($user->name) ?></p>
                 <div class="popup-head">
-                    <ul class="popup-menu">
-                        <li class="menu-item">
-                            <a href="#" class="link">Настройки</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="link">Связаться с нами</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="<?= Url::to(['user/logout']) ?>" class="link">Выход из системы</a>
-                        </li>
-
-                    </ul>
+                    <?= Menu::widget([
+                        'options' => [
+                            'class' => 'popup-menu',
+                        ],
+                        'itemOptions' => [
+                            'class' => 'menu-item',
+                        ],
+                        'items' => [
+                            ['label' => 'Настройки', 'url' => ['#']],
+                            ['label' => 'Связаться с нами', 'url' => ['#']],
+                            ['label' => 'Выход из системы', 'url' => ['user/logout']]
+                        ],
+                        'linkTemplate' => '<a class="link" href="{url}">{label}</a>',
+                    ]) ?>
                 </div>
             </div>
         </div>
+
     </header>
 <?php endif; ?>
 
@@ -80,6 +92,7 @@ AppAsset::register($this);
 
     <?= $content ?>
 
+    <div class="overlay"></div>
 </main>
 
 <?php $this->endBody() ?>

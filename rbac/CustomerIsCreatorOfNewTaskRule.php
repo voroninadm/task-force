@@ -14,7 +14,7 @@ use yii\rbac\Rule;
  */
 class CustomerIsCreatorOfNewTaskRule extends Rule
 {
-    public $name = 'CustomerIsCreatorOfNewTaskRule';
+    public $name = 'customerIsCreatorOfNewTaskRule';
 
     public function execute($user, $item, $params): bool
     {
