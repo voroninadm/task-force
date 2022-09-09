@@ -4,12 +4,11 @@
 namespace app\controllers;
 
 
+use app\models\CreateResponseForm;
 use app\models\CreateReviewForm;
 use app\models\CreateTaskForm;
 use app\models\Category;
-use app\models\File;
 use app\models\Response;
-use app\models\TaskFile;
 use app\models\TaskFilterForm;
 use app\services\TaskService;
 use app\services\UploadFileService;
@@ -22,6 +21,32 @@ use yii\widgets\ActiveForm;
 
 class TasksController extends SecuredController
 {
+//    public function behaviors(): array
+//    {
+//        return [
+//            [
+//                'allow' => true,
+//                'actions' => ['create'],
+//                'roles' => ['customer'],
+//            ],
+//            [
+//                'allow' => true,
+//                'actions' => ['refuse'],
+//                'roles' => ['performerCanRefuseTask'],
+//                'roleParams' => fn($rule) => [
+//                    'task' => Task::findOne(Yii::$app->request->get('id'))
+//                ]
+//            ],
+//            [
+//                'allow' => true,
+//                'actions' => ['cancel'],
+//                'roles' => ['customerCanCancelTask'],
+//                'roleParams' => fn($rule) => [
+//                    'task' => Task::findOne(Yii::$app->request->get('id'))
+//                ]
+//            ],
+//        ];
+//    }
 
     /**
      * to new tasks page
@@ -82,6 +107,7 @@ class TasksController extends SecuredController
         $files = $task->files;
 
         $reviewForm = new CreateReviewForm();
+        $responseForm = new CreateResponseForm();
 
         return $this->render('view',
             [
@@ -89,7 +115,8 @@ class TasksController extends SecuredController
                 'taskStatusNameRu' => $taskStatusNameRu,
                 'responses' => $responses,
                 'files' => $files,
-                'reviewForm' => $reviewForm
+                'reviewForm' => $reviewForm,
+                'responseForm' => $responseForm
             ]);
     }
 
@@ -113,7 +140,7 @@ class TasksController extends SecuredController
         }
 
         //validate and create new task
-        if($createTaskForm->load(Yii::$app->request->post()) && $createTaskForm->validate()) {
+        if ($createTaskForm->load(Yii::$app->request->post()) && $createTaskForm->validate()) {
             $uploadedFiles = UploadedFile::getInstances($createTaskForm, 'files');
             $task = (new TaskService())->createTask($createTaskForm);
 
@@ -146,6 +173,20 @@ class TasksController extends SecuredController
         if ($user->id === $task->customer_id && $task->status === Task::STATUS_NEW) {
             $taskService->cancelTask($task);
         }
+
+        return $this->redirect(['tasks/view', 'id' => $id]);
+    }
+
+    public function actionRefuse(int $id): \yii\web\Response
+    {
+        $task = Task::findOne($id);
+
+        if (!$task) {
+            throw new Exception("Не найдено задачи с Id=$id");
+        }
+
+        $taskService = new TaskService();
+        $taskService->refuseTask($task);
 
         return $this->redirect(['tasks/view', 'id' => $id]);
     }

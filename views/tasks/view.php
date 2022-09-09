@@ -4,6 +4,7 @@
  * @var Task $taskStatusNameRu
  * @var TasksController $responses
  * @var ReviewController $reviewForm
+ * @var ResponseController $responseForm
  */
 
 use app\widgets\RatingStars;
@@ -55,19 +56,20 @@ use yii\widgets\ActiveForm;
                                         'отзыв') ?></p>
                             </div>
                             <p class="response-message">
-                                <?= Html::encode($response->comment) ?>
+                                <?= $response->comment ? Html::encode($response->comment) : "<i>Пользователь оставил отклик без комментария</i>" ?>
                             </p>
                         </div>
                         <div class="feedback-wrapper">
                             <p class="info-text">
                 <span class="current-time"><?= Yii::$app->formatter->asRelativeTime($response->create_date); ?>
                             </p>
-                            <p class="price price--small"><?= Html::encode($response->price) ?> ₽</p>
+                            <p class="price price--small"><?= $response->price ? Html::encode($response->price) . ' ₽' : '' ?></p>
                         </div>
-                        <?php if (Yii::$app->user->can('customerCanAcceptResponse', ['task' => $task])): ?>
+                        <?php if (Yii::$app->user->can('customerCanAcceptResponse', ['task' => $task])
+                        && $response->is_blocked !== 1): ?>
                             <div class="button-popup">
-                                <a href="#" class="button button--blue button--small">Принять</a>
-                                <a href="#" class="button button--orange button--small">Отказать</a>
+                                <a class="button button--blue button--small" href="<?= Url::toRoute(['response/accept', 'id' => $response->id]) ?>">Принять</a>
+                                <a class="button button--orange button--small" href="<?= Url::toRoute(['response/refuse', 'id' => $response->id]) ?>">Отказать</a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -105,8 +107,8 @@ use yii\widgets\ActiveForm;
                 <?php foreach ($files as $file): ?>
                     <li class="enumeration-item">
                         <a href="<?= Url::to($file->url) ?>"
-                           class="link link--block link--clip"> <?= basename($file->url) ?> </a>
-                        <!--                    <p class="file-size">--><? //= $file->getSize() ?><!--)</p>-->
+                           class="link link--block link--clip" download> <?= basename($file->url) ?> </a>
+                                            <p class="file-size"><?= $file->size ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -165,8 +167,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($reviewForm, 'grade')->widget(StarRating::class, [
                 'pluginOptions' => [
-                    'containerClass' => 'stars-rating',
-                    'size' => 'sm',
+                    'size' => 'md',
                     'min' => 0,
                     'max' => 5,
                     'step' => 1,
@@ -176,16 +177,9 @@ use yii\widgets\ActiveForm;
                         3 => 'Средне',
                         4 => 'Хорошо',
                         5 => 'Замечательно',
-
-                    ],                ]
-            ]) ->label(false);?>
-
-            <?= $form->field($reviewForm, 'rate', [
-                'template' => '{input}',
-                'options' => [
-                    'tag' => false
-                ],
-            ])->hiddenInput(['value' => '']) ?>
+                    ],
+                ]
+            ])->label(false); ?>
 
             <?= Html::submitButton('Завершить', ['class' => 'button button--pop-up button--blue']) ?>
             <?php ActiveForm::end() ?>
@@ -204,7 +198,7 @@ use yii\widgets\ActiveForm;
             Вы собираетесь отказаться от выполнения этого задания.<br>
             Это действие плохо скажется на вашем рейтинге и увеличит счетчик проваленных заданий.
         </p>
-        <a class="button button--pop-up button--orange">Отказаться</a>
+        <a class="button button--pop-up button--orange" href="<?= Url::toRoute(['tasks/refuse', 'id' => $task->id]) ?>">Отказаться</a>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>
@@ -219,17 +213,26 @@ use yii\widgets\ActiveForm;
             Пожалуйста, укажите стоимость работы и добавьте комментарий, если необходимо.
         </p>
         <div class="addition-form pop-up--form regular-form">
-            <form>
-                <div class="form-group">
-                    <label class="control-label" for="addition-comment">Ваш комментарий</label>
-                    <textarea id="addition-comment"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="addition-price">Стоимость</label>
-                    <input id="addition-price" type="text">
-                </div>
-                <input type="submit" class="button button--pop-up button--blue" value="Завершить">
-            </form>
+            <?php $form = ActiveForm::begin([
+                'id' => 'responseForm',
+                'action' => ['response/create'],
+                'enableAjaxValidation' => true
+            ]) ?>
+
+            <?= $form->field($responseForm, 'task_id', [
+                'template' => '{input}',
+                'options' => ['tag' => false],
+            ])->hiddenInput(['value' => $task->id]) ?>
+
+            <?= $form->field($responseForm, 'comment')->textarea() ?>
+
+            <?= $form->field($responseForm, 'price')->textInput([
+                'type' => 'number',
+                'min' => 1
+            ]) ?>
+
+            <?= Html::submitButton('Завершить', ['class' => "button button--pop-up button--blue"]) ?>
+            <?php ActiveForm::end() ?>
         </div>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>

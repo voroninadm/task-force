@@ -7,13 +7,16 @@ namespace app\services;
 use app\models\RegistrationForm;
 use app\models\User;
 use Yii;
-use yii\base\BaseObject;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
 
 class UserService
 {
+    /**
+     * create user after registration
+     * @throws Exception
+     */
     public function createUser(RegistrationForm $form): user
     {
         $user = new User();
@@ -44,13 +47,18 @@ class UserService
         return $user;
     }
 
+    /**
+    * count performer's rating
+     * @param User $user
+     * @return float
+     */
     public function countUserPerformerRating(User $user): float
     {
-        $reviews = $user->getUserPerformerReviews;
+        $reviews = $user->countUserPerformerRating;
 
         $reviewsCount = count($reviews);
         $reviewsRateSum = array_sum(ArrayHelper::getColumn($reviews, 'grade'));
-        $userFailedTasksCount = $user->failed_tasks_count;
+        $userFailedTasksCount = $user->failed_task;
 
         return round($reviewsRateSum / ($reviewsCount + $userFailedTasksCount), 2);
     }

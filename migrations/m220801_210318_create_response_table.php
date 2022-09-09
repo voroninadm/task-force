@@ -16,7 +16,6 @@ class m220801_210318_create_response_table extends Migration
         $this->createTable('{{%response}}', [
             'id' => $this->primaryKey(),
             'task_id' => $this->integer()->notNull(),
-            'task_budget' => $this->integer()->null(),
             'user_id' => $this->integer()->notNull(),
             'comment' => $this->string()->null(),
             'create_date' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),

@@ -1580,7 +1580,7 @@ form .has-error textarea:hover {
 
 .pop-up--act_response {
   display: none; }
-  .pop-up--act_response input[type=text] {
+  .pop-up--act_response input[type=number] {
     width: 150px; }
   .pop-up--act_response .button--pop-up {
     margin-top: 10px; }

@@ -212,7 +212,7 @@ class User extends ActiveRecord implements IdentityInterface
         return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
-    public function countUserPerformerRating(): ActiveQuery
+    public function getCountUserPerformerRating(): ActiveQuery
     {
         return $this->hasMany(Review::class, ['user_id' => 'id']);
     }

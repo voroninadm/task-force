@@ -30,8 +30,9 @@ class ReviewService
             $task->update();
 
             $performer = $review->user;
+            $performer->updateCounters(['done_task' => 1]);
             $performer->rating = $userService->countUserPerformerRating($performer);
-            $performer->status = User::STATUS_FREE;
+            $performer->is_busy = User::STATUS_FREE;
             $performer->update();
 
             $transaction->commit();

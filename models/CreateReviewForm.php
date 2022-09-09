@@ -10,9 +10,9 @@ class CreateReviewForm extends Model
 {
     public $description;
     public $grade;
-    public $task_id = null;
-    public $author_id = null;
-    public $user_id = null;
+    public $task_id;
+    public $author_id;
+    public $user_id;
 
     public function attributeLabels(): array
     {
@@ -28,9 +28,9 @@ class CreateReviewForm extends Model
     public function rules(): array
     {
         return [
-            [['description','grade','task_id', 'author_id', 'user_id'], 'required'],
-            [['grade','task_id', 'author_id', 'user_id'], 'integer'],
-            [['description'],'string', 'length' => [10, 255]],
+            [['description', 'grade', 'task_id', 'author_id', 'user_id'], 'required'],
+            [['grade', 'task_id', 'author_id', 'user_id'], 'integer'],
+            [['description'],'string', 'length' => [5, 255]],
             [
                 ['task_id'],
                 'exist',
