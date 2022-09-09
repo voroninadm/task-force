@@ -6,8 +6,14 @@ use app\models\CreateTaskForm;
 use app\models\Task;
 use app\models\TaskFilterForm;
 use app\models\User;
+use app\rbac\actions\ActionCancel;
+use app\rbac\actions\ActionFinish;
+use app\rbac\actions\ActionRefuse;
+use app\rbac\actions\ActionResponse;
 use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQuery;
+use yii\helpers\Url;
 
 class TaskService
 {
@@ -112,5 +118,48 @@ class TaskService
             $transaction->rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * get available actions for task based on User role and current viewed task
+     * @param User $user
+     * @param Task $task
+     * @return array
+     * @throws Exception
+     */
+    public function getAvailableTaskActions(User $user, Task $task): array
+    {
+        $actionsLinks = [];
+
+        switch ($task->status) {
+            case Task::STATUS_NEW:
+                if (ActionCancel::isCurrentUserCanAct($user, $task)) {
+                    $actionsLinks[] = '<a href="' . Url::to(['tasks/cancel', 'id' => $task->id]) . '" class="button button--yellow action-btn">Отменить задание</a>';
+                }
+
+                if (ActionResponse::isCurrentUserCanAct($user, $task)) {
+                    $actionsLinks[] = '<a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>';
+                }
+                break;
+
+            case Task::STATUS_IN_WORK:
+                if (ActionFinish::isCurrentUserCanAct($user, $task)) {
+                    $actionsLinks[] = '<a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>';
+                }
+
+                if (ActionRefuse::isCurrentUserCanAct($user, $task)) {
+                    $actionsLinks[] = '<a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>';
+                }
+                break;
+
+            case Task::STATUS_FAILED:
+            case Task::STATUS_DONE:
+            case Task::STATUS_CANCELED:
+                return [];
+            default:
+                throw new Exception("Не определить список доступных действий ");
+        }
+
+        return $actionsLinks;
     }
 }

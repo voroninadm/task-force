@@ -74,4 +74,9 @@ class ResponseService
     {
         return Response::find()->where(['user_id' => $userId, 'task_id' => $taskId])->exists();
     }
+
+    public function getResponses(int $task, int $user)
+    {
+
+    }
 }

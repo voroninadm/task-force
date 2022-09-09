@@ -11,42 +11,53 @@ use app\models\Category;
 use app\models\Response;
 use app\models\TaskFilterForm;
 use app\services\TaskService;
-use app\services\UploadFileService;
+use app\services\FileService;
 use app\models\Task;
 use Yii;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 class TasksController extends SecuredController
 {
-//    public function behaviors(): array
-//    {
-//        return [
-//            [
-//                'allow' => true,
-//                'actions' => ['create'],
-//                'roles' => ['customer'],
-//            ],
-//            [
-//                'allow' => true,
-//                'actions' => ['refuse'],
-//                'roles' => ['performerCanRefuseTask'],
-//                'roleParams' => fn($rule) => [
-//                    'task' => Task::findOne(Yii::$app->request->get('id'))
-//                ]
-//            ],
-//            [
-//                'allow' => true,
-//                'actions' => ['cancel'],
-//                'roles' => ['customerCanCancelTask'],
-//                'roleParams' => fn($rule) => [
-//                    'task' => Task::findOne(Yii::$app->request->get('id'))
-//                ]
-//            ],
-//        ];
-//    }
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['@'],
+                    ],
+//                    [
+//                        'allow' => true,
+//                        'actions' => ['create'],
+//                        'roles' => ['customer'],
+//                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['refuse'],
+                        'roles' => ['performerCanRefuseTask'],
+                        'roleParams' => fn($rule) => [
+                            'task' => Task::findOne(Yii::$app->request->get('id'))
+                        ]
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['cancel'],
+                        'roles' => ['customerCanCancelTask'],
+                        'roleParams' => fn($rule) => [
+                            'task' => Task::findOne(Yii::$app->request->get('id'))
+                        ]
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /**
      * to new tasks page
@@ -98,16 +109,16 @@ class TasksController extends SecuredController
 
         $this->view->title = "$task->title :: Taskforce";
 
-        $taskStatusNameRu = Task::STATUSES_RU[$task->status];
-
-        $responses = Response::find()
-            ->where(['task_id' => $id])
-            ->all();
-
-        $files = $task->files;
-
+        $taskService = new TaskService();
         $reviewForm = new CreateReviewForm();
         $responseForm = new CreateResponseForm();
+
+        $taskStatusNameRu = Task::STATUSES_RU[$task->status];
+
+        $responses = Response::find()->where(['task_id' => $id])->all();
+
+        $files = $task->files;
+        $taskUserActions = $taskService->getAvailableTaskActions(Yii::$app->user->identity, $task);
 
         return $this->render('view',
             [
@@ -116,7 +127,8 @@ class TasksController extends SecuredController
                 'responses' => $responses,
                 'files' => $files,
                 'reviewForm' => $reviewForm,
-                'responseForm' => $responseForm
+                'responseForm' => $responseForm,
+                'taskUserActions' => $taskUserActions
             ]);
     }
 
@@ -146,7 +158,7 @@ class TasksController extends SecuredController
 
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $uploadedFile) {
-                    $file = (new UploadFileService())->upload($uploadedFile, 'task', $task->id);
+                    $file = (new FileService())->upload($uploadedFile, 'task', $task->id);
                     $task->link('files', $file);
                 }
             }

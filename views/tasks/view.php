@@ -3,6 +3,7 @@
  * @var Task $task
  * @var Task $taskStatusNameRu
  * @var TasksController $responses
+ * @var TasksController $taskUserActions
  * @var ReviewController $reviewForm
  * @var ResponseController $responseForm
  */
@@ -23,12 +24,11 @@ use yii\widgets\ActiveForm;
         <?php endif; ?>
     </div>
     <p class="task-description"><?= Html::encode($task->description) ?></p>
-    <a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>
-    <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
-    <?php if ($task->customer_id === Yii::$app->user->id) : ?>
-        <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
-        <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
-    <?php endif; ?>
+
+    <?php foreach ($taskUserActions as $availableAction): ?>
+        <?= $availableAction ?>
+    <?php endforeach; ?>
+
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="Новый арбат, 23, к. 1">
         <p class="map-address town">Москва</p>
@@ -108,7 +108,7 @@ use yii\widgets\ActiveForm;
                     <li class="enumeration-item">
                         <a href="<?= Url::to($file->url) ?>"
                            class="link link--block link--clip" download> <?= basename($file->url) ?> </a>
-                                            <p class="file-size"><?= $file->size ?></p>
+<!--                                            <p class="file-size">--><?//= $file->size ?><!--</p>-->
                     </li>
                 <?php endforeach; ?>
             </ul>
