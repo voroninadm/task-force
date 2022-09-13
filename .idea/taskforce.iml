@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="taskforce\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/common/src" isTestSource="false" packagePrefix="taskforce\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/egulias/email-validator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ezyang/htmlpurifier" />
@@ -20,13 +20,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/version" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/php-diff" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/prophecy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/npm-asset/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
@@ -95,6 +90,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wapmorgan/yii2-inflection" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wapmorgan/morphos" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kartik-v/yii2-widget-rating" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kartik-v/yii2-krajee-base" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kartik-v/bootstrap-star-rating" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii2-bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/bootstrap" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

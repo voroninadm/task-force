@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  */
 class File extends ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -74,5 +75,17 @@ class File extends ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(User::class, ['avatar_file_id' => 'id']);
+    }
+
+    /**
+     * calc file size in kilobytes
+     * @return string
+     */
+    public function getSize(): string
+    {
+        $file = Yii::getAlias('@webroot'). '/' . $this->url;
+        $size = round(filesize($file) / 1024, 2);
+
+        return "$size КБ";
     }
 }

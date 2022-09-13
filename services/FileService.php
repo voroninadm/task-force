@@ -7,7 +7,7 @@ use Yii;
 use yii\base\Exception;
 use yii\web\UploadedFile;
 
-class UploadFileService
+class FileService
 {
     public function upload(UploadedFile $uploadedFile, string $type, int $id = null): File
     {

@@ -33,6 +33,7 @@ class RegistrationForm extends Model
             [['name', 'email', 'city_id', 'password', 'password_repeat'], 'required'],
             [['email'], 'email'],
             [['name', 'email', 'password', 'password_repeat'], 'string', 'max' => 255],
+            [['name', 'email'], 'trim'],
             [['password', 'password_repeat'], 'string', 'min' => 5],
             [['city_id', 'is_performer'], 'integer'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],

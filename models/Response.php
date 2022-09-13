@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property int $task_id
- * @property int|null $task_budget
  * @property int $user_id
  * @property string|null $comment
  * @property string|null $create_date
@@ -36,7 +35,7 @@ class Response extends \yii\db\ActiveRecord
     {
         return [
             [['task_id', 'user_id'], 'required'],
-            [['task_id', 'task_budget', 'user_id', 'price', 'is_blocked'], 'integer'],
+            [['task_id', 'user_id', 'price', 'is_blocked'], 'integer'],
             [['create_date'], 'safe'],
             [['comment'], 'string', 'max' => 255],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
@@ -52,7 +51,6 @@ class Response extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'task_id' => 'ID задания',
-            'task_budget' => 'Бюджет задачи',
             'user_id' => 'ID исполнителя',
             'comment' => 'Комментарий',
             'create_date' => 'Дата создания отклика',
@@ -77,6 +75,16 @@ class Response extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+//    public static function isResponseAuthor(int $user_id, array $responses): bool
+//    {
+//        return in_array($user_id, $responses);
+//    }
+
+    public function getPerformer(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }

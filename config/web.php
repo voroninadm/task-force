@@ -83,6 +83,10 @@ $config = [
             'class' => 'wapmorgan\yii2inflection\Inflection',
             'language' => 'ru_RU'
         ],
+        //for rbac DbManager
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'params' => $params,
 ];

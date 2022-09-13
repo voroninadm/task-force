@@ -1480,6 +1480,7 @@ form .has-error textarea:hover {
   padding-bottom: 12px;
   padding-right: 40px;
   background-color: #ffffff;
+  box-shadow: 5px 5px 16px grey;
   border-radius: 8px;
   position: fixed;
   top: 200px;
@@ -1498,11 +1499,12 @@ form .has-error textarea:hover {
   .pop-up .form-group {
     margin-bottom: 15px; }
   .pop-up .completion-head {
-    margin-bottom: 0; }
+    margin-bottom: 10px; }
   .pop-up input[type=submit] {
     width: 171px; }
   .pop-up .button--pop-up {
     float: left;
+    cursor: pointer;
     font-size: 19px;
     padding: 15px 40px;
     margin-top: 25px; }
@@ -1578,7 +1580,7 @@ form .has-error textarea:hover {
 
 .pop-up--act_response {
   display: none; }
-  .pop-up--act_response input[type=text] {
+  .pop-up--act_response input[type=number] {
     width: 150px; }
   .pop-up--act_response .button--pop-up {
     margin-top: 10px; }

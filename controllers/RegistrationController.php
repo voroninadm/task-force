@@ -6,8 +6,7 @@ namespace app\controllers;
 
 use app\models\City;
 use app\models\RegistrationForm;
-use app\models\User;
-use taskforce\classes\exceptions\FormException;
+use app\services\UserService;
 use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -28,25 +27,17 @@ class RegistrationController extends GuestController
         }
 
         //validation and saving new user
-        if($regForm->load(Yii::$app->request->post()) && $regForm->validate())
-        {
-            $user = new User();
-            $user->loadDefaultValues();
-            $user->name = $regForm->name;
-            $user->avatar_file_id = Yii::$app->params['userDefaultAvatarPath'];
-            $user->city_id = $regForm->city_id;
-            $user->email = $regForm->email;
-            $user->password = Yii::$app->security->generatePasswordHash($regForm->password);
-            $user->is_performer = $regForm->is_performer;
+        if ($regForm->load(Yii::$app->request->post()) && $regForm->validate()) {
+            $userService = new UserService();
+            $user = $userService->createUser($regForm);
+            Yii::$app->user->login($user);
 
-            if($user->save()) {
-                $this->redirect('tasks');
-            } else {
-                throw new FormException('Не удалось добавить пользователя');
-            }
+            //auto login when registration is successful
+            Yii::$app->user->login($user);
+            $this->redirect('/tasks');
         }
 
-        return $this->render('index',[
+        return $this->render('index', [
             'regForm' => $regForm,
             'citiesList' => $citiesList
 

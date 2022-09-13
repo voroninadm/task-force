@@ -4,24 +4,60 @@
 namespace app\controllers;
 
 
+use app\models\CreateResponseForm;
+use app\models\CreateReviewForm;
 use app\models\CreateTaskForm;
 use app\models\Category;
-use app\models\File;
 use app\models\Response;
-use app\models\TaskFile;
 use app\models\TaskFilterForm;
-use app\services\CreateTaskService;
-use app\services\TasksFilterServices;
-use app\services\UploadFileService;
-use taskforce\classes\exceptions\NotFoundHttpException;
+use app\services\TaskService;
+use app\services\FileService;
 use app\models\Task;
 use Yii;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 class TasksController extends SecuredController
 {
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['customer'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['cancel'],
+                        'roles' => ['customerCanCancelTask'],
+                        'roleParams' => fn($rule) => [
+                            'task' => Task::findOne(Yii::$app->request->get('id'))
+                        ]
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['refuse'],
+                        'roles' => ['performerCanRefuseTask'],
+                        'roleParams' => fn($rule) => [
+                            'task' => Task::findOne(Yii::$app->request->get('id'))
+                        ]
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /**
      * to new tasks page
@@ -38,7 +74,7 @@ class TasksController extends SecuredController
         $filterForm->load(Yii::$app->request->get());
 
 
-        $query = (new TasksFilterServices())->filterTasks($filterForm);
+        $query = (new TaskService())->filterTasks($filterForm);
         $tasksDataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -59,38 +95,49 @@ class TasksController extends SecuredController
     }
 
     /**
-     * to view $id task page
+     * to view $id task at personal page
      * @param int $id
      * @return string
-     * @throws NotFoundHttpException
+     * @throws Exception
      */
     public function actionView(int $id): string
     {
         $task = Task::findOne($id);
         if (!$task) {
-            throw new NotFoundHttpException("Задание с ID $id не найдено");
+            throw new Exception("Задание с ID $id не найдено");
         }
 
         $this->view->title = "$task->title :: Taskforce";
 
+        $taskService = new TaskService();
+        $reviewForm = new CreateReviewForm();
+        $responseForm = new CreateResponseForm();
+
         $taskStatusNameRu = Task::STATUSES_RU[$task->status];
 
-        $responses = Response::find()
-            ->where(['task_id' => $id])
-            ->all();
+        $responses = Response::find()->where(['task_id' => $id])->all();
 
         $files = $task->files;
+        $taskUserActions = $taskService->getAvailableTaskActions(Yii::$app->user->identity, $task);
 
         return $this->render('view',
             [
                 'task' => $task,
                 'taskStatusNameRu' => $taskStatusNameRu,
                 'responses' => $responses,
-                'files' => $files
+                'files' => $files,
+                'reviewForm' => $reviewForm,
+                'responseForm' => $responseForm,
+                'taskUserActions' => $taskUserActions
             ]);
     }
 
-    public function actionCreate()
+    /**
+     * Create new task
+     * @return array|string|\yii\web\Response
+     * @throws Exception
+     */
+    public function actionCreate(): \yii\web\Response|array|string
     {
         $this->view->title = "Создать задание :: Taskforce";
 
@@ -105,13 +152,13 @@ class TasksController extends SecuredController
         }
 
         //validate and create new task
-        if($createTaskForm->load(Yii::$app->request->post()) && $createTaskForm->validate()) {
+        if ($createTaskForm->load(Yii::$app->request->post()) && $createTaskForm->validate()) {
             $uploadedFiles = UploadedFile::getInstances($createTaskForm, 'files');
-            $task = (new CreateTaskService())->createTask($createTaskForm);
+            $task = (new TaskService())->createTask($createTaskForm);
 
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $uploadedFile) {
-                    $file = (new UploadFileService())->upload($uploadedFile, 'task', $task->id);
+                    $file = (new FileService())->upload($uploadedFile, 'task', $task->id);
                     $task->link('files', $file);
                 }
             }
@@ -122,6 +169,38 @@ class TasksController extends SecuredController
             'createTaskForm' => $createTaskForm,
             'categoriesList' => $categoriesList
         ]);
+    }
+
+    public function actionCancel(int $id): \yii\web\Response
+    {
+        $task = Task::findOne($id);
+
+        if (!$task) {
+            throw new Exception("Задание с id=$id не найдено");
+        }
+
+        $user = Yii::$app->user->identity;
+        $taskService = new TaskService();
+
+        if ($user->id === $task->customer_id && $task->status === Task::STATUS_NEW) {
+            $taskService->cancelTask($task);
+        }
+
+        return $this->redirect(['tasks/view', 'id' => $id]);
+    }
+
+    public function actionRefuse(int $id): \yii\web\Response
+    {
+        $task = Task::findOne($id);
+
+        if (!$task) {
+            throw new Exception("Не найдено задачи с Id=$id");
+        }
+
+        $taskService = new TaskService();
+        $taskService->refuseTask($task);
+
+        return $this->redirect(['tasks/view', 'id' => $id]);
     }
 
 }

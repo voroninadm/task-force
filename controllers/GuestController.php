@@ -22,9 +22,7 @@ class GuestController extends Controller
                     [
                         'allow' => false,
                         'roles' => ['@'],
-                        'denyCallback' => function ($rule, $action) {
-                            return $this->redirect(['/tasks']);
-                        }
+                        'denyCallback' => fn() => $this->redirect(['/tasks'])
                     ]
                 ]
             ]

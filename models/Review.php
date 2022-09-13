@@ -35,8 +35,8 @@ class Review extends \yii\db\ActiveRecord
     {
         return [
             [['description', 'grade', 'task_id', 'user_id', 'author_id'], 'required'],
-            [['create_date'], 'safe'],
-            [['grade', 'task_id'], 'integer','user_id', 'author_id'],
+            [['description', 'grade', 'task_id', 'user_id', 'author_id', 'create_date'], 'safe'],
+            [['grade', 'task_id', 'user_id', 'author_id'], 'integer'],
             [['description'], 'string', 'max' => 255],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
