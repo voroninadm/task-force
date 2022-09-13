@@ -8,12 +8,12 @@ use yii\base\Model;
 
 class LoginForm extends Model
 {
-    public $email;
-    public $password;
+    public string $email = '';
+    public string $password = '';
 
-    private $_user = null;
+    private User|null $_user = null;
 
-    public function attributeLabels(): array
+     public function attributeLabels(): array
     {
         return [
             'email' => 'EMAIL',
@@ -25,6 +25,7 @@ class LoginForm extends Model
     {
         return [
             [['email', 'password'], 'required'],
+            [[ 'email'], 'trim'],
             [['email', 'password'], 'safe'],
             ['email', 'email'],
             [

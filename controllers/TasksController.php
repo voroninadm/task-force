@@ -33,23 +33,23 @@ class TasksController extends SecuredController
                         'actions' => ['index', 'view'],
                         'roles' => ['@'],
                     ],
-//                    [
-//                        'allow' => true,
-//                        'actions' => ['create'],
-//                        'roles' => ['customer'],
-//                    ],
                     [
                         'allow' => true,
-                        'actions' => ['refuse'],
-                        'roles' => ['performerCanRefuseTask'],
+                        'actions' => ['create'],
+                        'roles' => ['customer'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['cancel'],
+                        'roles' => ['customerCanCancelTask'],
                         'roleParams' => fn($rule) => [
                             'task' => Task::findOne(Yii::$app->request->get('id'))
                         ]
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['cancel'],
-                        'roles' => ['customerCanCancelTask'],
+                        'actions' => ['refuse'],
+                        'roles' => ['performerCanRefuseTask'],
                         'roleParams' => fn($rule) => [
                             'task' => Task::findOne(Yii::$app->request->get('id'))
                         ]
