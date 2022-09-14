@@ -2,8 +2,8 @@
 .idea
 
 #config private files
-./config/db.php
 config/db.php
+config/params.php
 
 # netbeans project files
 nbproject
