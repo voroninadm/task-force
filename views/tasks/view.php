@@ -3,7 +3,9 @@
  * @var Task $task
  * @var Task $taskStatusNameRu
  * @var TasksController $responses
+ * @var TasksController $locationData
  * @var TasksController $taskUserActions
+ * @var TasksController $geoApiKey
  * @var ReviewController $reviewForm
  * @var ResponseController $responseForm
  */
@@ -14,13 +16,18 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
+
+$geoApiKey = Yii::$app->params['apiYandexGeocoderKey'];
+$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey=$geoApiKey&lang=ru_RU", []);
+$this->registerJsFile('@web/js/map.js', []);
+
 ?>
 
 <div class="left-column">
     <div class="head-wrapper">
         <h3 class="head-main"><?= Html::encode($task->title) ?></h3>
         <?php if (!empty($task->price)) : ?>
-            <p class="price price--big"><?= Html::encode($task->price) ?> ₽</p>
+            <p class="price price--big"><?= Html::encode($task->price) ?>&nbsp;₽</p>
         <?php endif; ?>
     </div>
     <p class="task-description"><?= Html::encode($task->description) ?></p>
@@ -29,11 +36,13 @@ use yii\widgets\ActiveForm;
         <?= $availableAction ?>
     <?php endforeach; ?>
 
+    <?php if (!empty($locationData)) : ?>
     <div class="task-map">
-        <img class="map" src="/img/map.png" width="725" height="346" alt="Новый арбат, 23, к. 1">
-        <p class="map-address town">Москва</p>
-        <p class="map-address">Новый арбат, 23, к. 1</p>
+        <div class = 'map' id="map" data-lat="<?= $locationData['lat']?>" data-long="<?= Html::encode($locationData['long']) ?>"></div>
+        <p class="map-address town"><?= Html::encode($locationData['city']) ?></p>
+        <p class="map-address"><?= Html::encode($locationData['address']) ?></p>
     </div>
+    <?php endif; ?>
 
     <?php if (Yii::$app->user->id === $task->customer_id
         || in_array(Yii::$app->user->id, array_column($responses, 'user_id'))): ?>
@@ -176,7 +185,7 @@ use yii\widgets\ActiveForm;
                         2 => 'Плохо',
                         3 => 'Средне',
                         4 => 'Хорошо',
-                        5 => 'Замечательно',
+                        5 => 'Великолепно',
                     ],
                 ]
             ])->label(false); ?>

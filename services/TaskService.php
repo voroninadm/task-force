@@ -50,7 +50,7 @@ class TaskService
      */
     public function createTask(CreateTaskForm $form): Task
     {
-//        $locationService = new LocationService();
+        $locationService = new LocationService();
 
         $task = new Task();
         $task->loadDefaultValues();
@@ -60,21 +60,20 @@ class TaskService
         $task->title = $form->title;
         $task->description = $form->description;
         $task->category_id = $form->category_id;
-        $task->city_id = Yii::$app->user->identity->city_id;
-        $task->price = !empty($form->budget) ? (int)$form->price : null;
+        $task->price = !empty($form->price) ? (int)$form->price : null;
 
-//        if ($form->location !== '' && $locationService->isCityExistsInDB($form->city)) {
-//            $task->city_id = $locationService->getCityIdByName($form->city);
-//            $task->address = $form->address;
-//            $task->coordinates = null;
-//        }
+        if (!empty($form->location) && $locationService->isCityExistsInDB($form->city)) {
+            $task->city_id = $locationService->getCityIdByName($form->city);
+            $task->address = $form->address;
+            $task->lat = $form->lat;
+            $task->long = $form->long;
+        }
+        if (!empty($form->location) && !$locationService->isCityExistsInDB($form->city)) {
+            $form->addError("Город $form->city не обнаружен. Выберите Ваш город регистрации или оставьте пустым");
+        }
 
         $task->deadline = $form->deadline;
         $task->save();
-
-//        if ($form->location !== '') {
-//            $locationService->setPointCoordinatesToTask($task->id, $form->lat, $form->long);
-//        }
 
         return $task;
     }
@@ -94,9 +93,7 @@ class TaskService
      * refuse task (by task performer)
      * set performer free with -rating and set task status as failed
      * @param Task $task
-     * @throws \Throwable
-     * @throws \yii\db\Exception
-     * @throws \yii\db\StaleObjectException
+     * @throws \yii\db\Exception|\Throwable
      */
     public function refuseTask(Task $task): void
     {

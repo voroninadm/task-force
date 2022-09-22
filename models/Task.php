@@ -16,7 +16,7 @@ use Yii;
  * @property int $city_id
  * @property string|null $address
  * @property float $lat
- * @property float $lng
+ * @property float $long
  * @property int|null $price
  * @property string|null $deadline
  * @property int $customer_id
@@ -66,7 +66,7 @@ class Task extends \yii\db\ActiveRecord
             [['public_date', 'deadline'], 'safe'],
             [['status', 'title', 'description', 'category_id', 'customer_id'], 'required'],
             [['category_id', 'city_id', 'price', 'customer_id', 'performer_id'], 'integer'],
-            [['lat', 'lng'], 'number'],
+            [['lat', 'long'], 'number'],
             [['status', 'title', 'description', 'address'], 'string', 'max' => 255],
             [
                 ['category_id'],
@@ -114,7 +114,7 @@ class Task extends \yii\db\ActiveRecord
             'city_id' => 'ID города задания',
             'address' => 'Адрес',
             'lat' => 'Широта',
-            'lng' => 'Долгота',
+            'long' => 'Долгота',
             'price' => 'Цена за выполнение задания',
             'deadline' => 'Дедлайн задания',
             'customer_id' => 'ID заказчика',

@@ -10,6 +10,7 @@ use app\models\CreateTaskForm;
 use app\models\Category;
 use app\models\Response;
 use app\models\TaskFilterForm;
+use app\services\LocationService;
 use app\services\TaskService;
 use app\services\FileService;
 use app\models\Task;
@@ -119,17 +120,28 @@ class TasksController extends SecuredController
 
         $files = $task->files;
         $taskUserActions = $taskService->getAvailableTaskActions(Yii::$app->user->identity, $task);
+        $locationData = [];
 
-        return $this->render('view',
-            [
-                'task' => $task,
-                'taskStatusNameRu' => $taskStatusNameRu,
-                'responses' => $responses,
-                'files' => $files,
-                'reviewForm' => $reviewForm,
-                'responseForm' => $responseForm,
-                'taskUserActions' => $taskUserActions
-            ]);
+        if (isset($task->city_id)) {
+            $locationData = [
+                'lat' => $task->lat,
+                'long' => $task->long,
+                'address' => $task->address,
+                'city' => $task->city->name
+            ];
+        }
+
+            return $this->render('view',
+                [
+                    'task' => $task,
+                    'taskStatusNameRu' => $taskStatusNameRu,
+                    'responses' => $responses,
+                    'files' => $files,
+                    'reviewForm' => $reviewForm,
+                    'responseForm' => $responseForm,
+                    'taskUserActions' => $taskUserActions,
+                    'locationData' => $locationData
+                ]);
     }
 
     /**
@@ -142,6 +154,13 @@ class TasksController extends SecuredController
         $this->view->title = "Создать задание :: Taskforce";
 
         $user = Yii::$app->user->identity;
+        $userLocationData = [
+            'location' => 'Россия, ' . $user->city->name,
+            'city' => $user->city->name,
+            'address' => $user->city->name,
+            'lat' => $user->city->lat,
+            'long' => $user->city->long
+        ];
         $categoriesList = Category::getCategoryList();
         $createTaskForm = new CreateTaskForm();
 
@@ -165,9 +184,11 @@ class TasksController extends SecuredController
             return $this->redirect(['tasks/view', 'id' => $task->id]);
         }
 
+
         return $this->render('create', [
             'createTaskForm' => $createTaskForm,
-            'categoriesList' => $categoriesList
+            'categoriesList' => $categoriesList,
+            'userLocationData' => $userLocationData
         ]);
     }
 
