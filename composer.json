@@ -17,7 +17,8 @@
         "yiisoft/yii2-twig": "^2.4",
         "wapmorgan/yii2-inflection": "^1.0",
         "kartik-v/yii2-widget-rating": "*",
-        "yiisoft/yii2-bootstrap": "^2.0"
+        "yiisoft/yii2-bootstrap": "^2.0",
+        "guzzlehttp/guzzle": "^7.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -966,7 +966,7 @@ template {
   margin-top: 31px;
   margin-bottom: 25px; }
   .enumeration-item a {
-    padding-left: 50px;
+    /*padding-left: 50px;*/
     position: relative; }
   .enumeration-item a::after {
     position: absolute;
@@ -994,7 +994,7 @@ template {
   background-position: center;
   background-repeat: no-repeat;
   top: 3px;
-  left: -8px; }
+  left: -32px; }
 
 .file-card .link--clip::before {
   position: absolute;
@@ -1005,8 +1005,8 @@ template {
   top: 53px;
   left: 1px; }
 
-.enumeration-item .link--clip {
-  padding-left: 25px; }
+/*.enumeration-item .link--clip {*/
+/*  padding-left: 25px; }*/
 
 .file-card .enumeration-item {
   margin-top: -5px; }
@@ -1261,6 +1261,28 @@ input[type=checkbox] {
     margin-bottom: 10px;
     color: #989898;
     font-size: 16px; }
+
+  .regular-form .adding-files {
+    position: relative;
+    top: 15px;
+    border: none;
+    opacity: 0;
+    z-index: -1;
+    }
+
+.new-file label {
+  position: relative;
+  top: 20px;
+  left: 160px;
+  padding: 80px 30px 10px;
+}
+
+.new-file .help-block {
+  position: relative;
+  top: 9px;
+  left: -50px
+}
+
   .regular-form input,
   .regular-form select,
   .regular-form textarea {
@@ -1404,7 +1426,7 @@ input[type=date] {
   border: 1px dashed #989898;
   border-radius: 7px;
   background-color: #ffffff;
-  margin-top: 11px;
+  margin: 15px 0;
   font-size: 16px;
   color: #989898;
   background-image: url("../img/upload-icon.svg");

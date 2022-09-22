@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * @property int $id
  * @property string $name
  * @property float $lat
- * @property float $lng
+ * @property float $long
  *
  * @property Task[] $tasks
  * @property User[] $users
@@ -32,8 +32,8 @@ class City extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'lat', 'lng'], 'required'],
-            [['lat', 'lng'], 'number'],
+            [['name', 'lat', 'long'], 'required'],
+            [['lat', 'long'], 'number'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -47,7 +47,7 @@ class City extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название города',
             'lat' => 'Широта',
-            'lng' => 'Долгота',
+            'long' => 'Долгота',
         ];
     }
 

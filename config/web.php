@@ -43,7 +43,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/landing'] // to site for guests
+            'loginUrl' => ['/landing'] // to site for guests, place for login
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

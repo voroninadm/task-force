@@ -17,7 +17,7 @@ class m220801_105002_create_city_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'lat' => $this->decimal(11,8)->notNull(),
-            'lng' => $this->decimal(11,8)->notNull()
+            'long' => $this->decimal(11,8)->notNull()
         ]);
     }
 

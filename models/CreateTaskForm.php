@@ -12,7 +12,11 @@ class CreateTaskForm extends Model
     public $title;
     public $description;
     public $category_id;
+    public $location;
     public $address;
+    public $city;
+    public $lat;
+    public $long;
     public $price;
     public $deadline;
     public $files;
@@ -23,7 +27,11 @@ class CreateTaskForm extends Model
             'title' => 'Опишите суть работы',
             'description' => 'Подробности задания',
             'category_id' => 'Категория',
-            'address' => 'Локация',
+            'location' => 'Локация',
+            'address' => 'Адрес задания',
+            'city' => 'Город задания',
+            'lat' => 'Широта',
+            'long' => 'Долгота',
             'price' => 'Бюджет',
             'deadline' => 'Срок исполнения',
             'files' => 'Файлы'
@@ -38,7 +46,8 @@ class CreateTaskForm extends Model
             [['title'], 'string', 'length' => [10, 255]],
             [['description'], 'string', 'min' => 30],
             [['category_id', 'price'], 'integer'],
-            [['title','description','deadline'], 'string'],
+            [['lat', 'long'], 'double'],
+            [['title','description','deadline', 'address', 'city', 'location'], 'string'],
             [
                 'category_id',
                 'exist',
@@ -62,7 +71,18 @@ class CreateTaskForm extends Model
                 'maxFiles' => Yii::$app->params['maxFilesToTask'],
                 'tooMany' => "Не более " .Yii::$app->params['maxFilesToTask'] . " файлов"
             ],
+            [
+                ['location'],
+                'showLocationErrorMessage',
+                'when' => fn($model) => $model->city !== Yii::$app->user->identity->city->name
+            ],
         ];
 
     }
+
+    public function showLocationErrorMessage($attribute, $params)
+    {
+        $this->addError($attribute, 'Вы можете указывать адрес только в рамках города, указанного при регистрации!');
+    }
 }
+

@@ -6,20 +6,16 @@ namespace app\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * Class LandingAsset for open landing page
- * @package app\assets
- */
-class LandingAsset extends AssetBundle
+class AutocompleteAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/normalize.css',
-        'css/landing.css'
+        'css/autoComplete.css'
     ];
     public $js = [
-        'js/landing.js'
+        'js/autoComplete.min.js',
+        'js/location-autocomplete.js'
     ];
     public $depends = [
         'yii\web\YiiAsset'
