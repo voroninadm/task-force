@@ -12,4 +12,7 @@ return [
     'bsDependencyEnabled' => false, // this will not load Bootstrap CSS and JS for all Krajee extension (STAR RATING),
 
     'apiYandexGeocoderKey' => 'e666f398-c983-4bde-8f14-e3fec900592a',
+
+    'vkClientId' => '51432823',
+    'vkSecretKey' => 'GB8MmADZh3OPIsjOUizW',
 ];

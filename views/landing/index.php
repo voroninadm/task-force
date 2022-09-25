@@ -4,6 +4,7 @@
  * @var LoginForm $loginForm
  */
 
+use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm; ?>
@@ -202,6 +203,15 @@ use yii\widgets\ActiveForm; ?>
         <?= Html::submitButton('Войти', ['class' => 'button']) ?>
         <?php ActiveForm::end() ?>
         <button class="form-modal-close" type="button">Закрыть</button>
+
+        <?php $authAuthChoice = AuthChoice::begin([
+            'baseAuthUrl' => ['vk/auth'],
+            'popupMode' => false,
+        ]); ?>
+        <?php foreach ($authAuthChoice->getClients() as $client): ?>
+            <?= $authAuthChoice->clientLink($client, "Войти через {$client->getTitle()} как исполнитель") ?>
+        <?php endforeach; ?>
+        <?php AuthChoice::end(); ?>
     </section>
 
 </div>

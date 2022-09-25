@@ -8,6 +8,7 @@ use app\models\RegistrationForm;
 use app\models\User;
 use Yii;
 use yii\base\Exception;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 
@@ -61,5 +62,10 @@ class UserService
         $userFailedTasksCount = $user->failed_task;
 
         return round($reviewsRateSum / ($reviewsCount + $userFailedTasksCount), 2);
+    }
+
+    public function getUserByEmail(string $email): array|ActiveRecord|User|null
+    {
+        return User::find()->where(['email' => $email])->one();
     }
 }
