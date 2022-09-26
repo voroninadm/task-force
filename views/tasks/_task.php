@@ -6,6 +6,7 @@
  */
 
 use app\models\Task;
+use app\services\LocationService;
 use yii\helpers\BaseStringHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -26,7 +27,7 @@ use yii\web\View;
     <p class="task-text"><?= Html::encode(BaseStringHelper::truncate($model->description, 200)); ?></p>
     <div class="footer-task">
         <?php if (isset($model->address)) : ?>
-            <p class="info-text town-text"><?= Html::encode($model->address); ?></p>
+            <p class="info-text town-text"><?= LocationService::getCityNameById($model->city_id) .', ' . Html::encode($model->address); ?></p>
         <?php endif; ?>
         <p class="info-text category-text"><?= Html::encode($model->category->name) ?></p>
         <a href="<?= Url::to(['/tasks/view/', 'id' => $model->id]); ?>" class="button button--black">Смотреть Задание</a>

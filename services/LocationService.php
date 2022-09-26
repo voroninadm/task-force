@@ -100,4 +100,15 @@ class LocationService
         $city = City::find()->where(['name' => $cityName])->limit(1)->one();
         return $city->id;
     }
+
+    /**
+     * Getting city name from db city_id
+     * @param string $id
+     * @return string
+     */
+    public static function getCityNameById(string $id): string
+    {
+        $city = City::find()->where(['id' => $id])->limit(1)->one();
+        return $city->name;
+    }
 }

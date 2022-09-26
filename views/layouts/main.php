@@ -45,8 +45,8 @@ AppAsset::register($this);
                     ],
                     'activeCssClass' => 'list-item--active',
                     'items' => [
-                        ['label' => 'Новое', 'url' => ['tasks/index']],
-                        ['label' => 'Мои задания', 'url' => '#'],
+                        ['label' => 'Новое', 'url' => ['tasks/']],
+                        ['label' => 'Мои задания', 'url' => ['my-tasks/']],
                         [
                             'label' => 'Создать задание',
                             'url' => ['tasks/create'],
