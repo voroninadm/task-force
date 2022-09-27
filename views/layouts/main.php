@@ -9,6 +9,7 @@ use app\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use app\services\LayoutService;
 
 
 AppAsset::register($this);
@@ -52,7 +53,7 @@ AppAsset::register($this);
                             'url' => ['tasks/create'],
                             'visible' => Yii::$app->user->identity->is_performer === User::ROLE_CUSTOMER,
                         ],
-                        ['label' => 'Настройки', 'url' => '#']
+                        ['label' => 'Настройки', 'url' => ['/profile']]
                     ],
                     'linkTemplate' => '<a class="link link--nav" href="{url}">{label}</a>',
                 ]) ?>
@@ -87,8 +88,7 @@ AppAsset::register($this);
     </header>
 <?php endif; ?>
 
-<main class="main-content container
-<?= (str_contains(Yii::$app->request->url, 'create')) ? 'main-content--center' : '' ?>" >
+<main class="main-content container <?= LayoutService::addClassToMain(Yii::$app->controller->route) ?>">
 
     <?= $content ?>
 

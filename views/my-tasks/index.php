@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @var MyTasksController $tasksDataProvider
+ * @var MyTasksController $title
+ */
+
+use app\models\User;
+use yii\widgets\ListView;
 use yii\widgets\Menu;
 
 ?>
@@ -17,25 +24,36 @@ use yii\widgets\Menu;
         'items' => [
             [
                 'label' => 'Новые',
-                'url' => ['tasks/my-tasks', 'status' => 'new'],
+                'url' => ['', 'status' => 'new'],
                 'active' => function ($item, $hasActiveChild, $isItemActive, $widget) {
                     $queryString = Yii::$app->request->queryString;
                     return $queryString === '' || $queryString === 'status=new';
-                }
+                },
+                'visible' => Yii::$app->user->identity->is_performer === User::ROLE_CUSTOMER
             ],
             [
                 'label' => 'В процессе',
-                'url' => ['tasks/my-tasks', 'status' => 'in_work'],
+                'url' => ['', 'status' => 'in_work'],
                 'active' => function ($item, $hasActiveChild, $isItemActive, $widget) {
                     $queryString = Yii::$app->request->queryString;
-                    return $queryString === 'status=in_work';
+                    if (Yii::$app->user->identity->is_performer) {
+                        return $queryString === '' || $queryString === 'status=in_work';
+                    } else {
+                       return $queryString === 'status=in_work';
+                    }
                 }
             ],
-            ['label' => 'Закрытые',
-                'url' => ['tasks/my-tasks', 'status' => 'failed'],
+            [
+                'label' => 'Просрочено',
+                'url' => ['my-tasks/index', 'status' => 'overdue'],
+                'visible' => Yii::$app->user->identity->is_performer === User::ROLE_PERFORMER
+            ],
+            [
+                'label' => 'Закрытые',
+                'url' => ['my-tasks/index', 'status' => 'closed'],
                 'active' => function ($item, $hasActiveChild, $isItemActive, $widget) {
                     $queryString = Yii::$app->request->queryString;
-                    return $queryString === 'status=failed';
+                    return $queryString === 'status=closed';
                 }
             ],
 
@@ -45,57 +63,37 @@ use yii\widgets\Menu;
     ?>
 </div>
 <div class="left-column left-column--task">
-    <h3 class="head-main head-regular">Новые задания</h3>
-    <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-            <p class="price price--task">3400 ₽</p>
-        </div>
-        <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-        <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit
-            amet tempor
-            nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet
-            augue accumsan tincidunt.
-        </p>
-        <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-            <p class="info-text category-text">Переводы</p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div>
-    <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-            <p class="price price--task">3400 ₽</p>
-        </div>
-        <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-        <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit
-            amet tempor
-            nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet
-            augue accumsan tincidunt.
-        </p>
-        <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-            <p class="info-text category-text">Переводы</p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div>
-    <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-            <p class="price price--task">3400 ₽</p>
-        </div>
-        <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-        <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit
-            amet tempor
-            nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet
-            augue accumsan tincidunt.
-        </p>
-        <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-            <p class="info-text category-text">Переводы</p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div>
+    <h3 class="head-main head-regular"><?= $title ?></h3>
+    <?= ListView::widget([
+        'dataProvider' => $tasksDataProvider,
+        'itemView' => '..\tasks\_task',
+        'itemOptions' => [
+            'tag' => false
+        ],
+        'pager' => [
+            'hideOnSinglePage' => true,
+            'options' => [
+                'class' => 'pagination-list'
+            ],
+            'activePageCssClass' => 'pagination-item--active',
+            'linkContainerOptions' => [
+                'class' => 'pagination-item'
+            ],
+            'linkOptions' => [
+                'class' => 'link link--page'
+            ],
+            'nextPageCssClass' => 'mark',
+            'prevPageCssClass' => 'mark',
+            'nextPageLabel' => '',
+            'prevPageLabel' => '',
+            'disabledPageCssClass' => ''
+        ],
+        'summary' => '',
+        'separator' => '',
+        'id' => false,
+        'options' => [
+            'tag' => false,
+        ]
+    ]); ?>
 </div>
 
