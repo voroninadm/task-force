@@ -217,7 +217,18 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Review::class, ['user_id' => 'id']);
     }
 
-    //===interface methods
+    public function getTasksWhereUserIsCustomer(): ActiveQuery
+    {
+        return $this->hasMany(Task::class, ['customer_id' => 'id']);
+    }
+
+
+    public function getTasksWhereUserIsPerformer(): ActiveQuery
+    {
+        return $this->hasMany(Task::class, ['performer_id' => 'id']);
+    }
+
+    //===identity interface methods
     public static function findIdentity($id)
     {
         return self::findOne($id);

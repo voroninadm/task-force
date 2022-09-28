@@ -10,26 +10,12 @@
 use app\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\widgets\Menu;
 
 ?>
 
 <div class="left-menu left-menu--edit">
     <h3 class="head-main head-task">Настройки</h3>
-    <?= Menu::widget([
-        'options' => [
-            'class' => 'side-menu-list',
-        ],
-        'itemOptions' => [
-            'class' => 'side-menu-item',
-        ],
-        'activeCssClass' => 'side-menu-item--active',
-        'items' => [
-            ['label' => 'Мой профиль', 'url' => ['profile/index']],
-            ['label' => 'Безопасность', 'url' => ['profile/security']]
-        ],
-        'linkTemplate' => '<a class="link link--nav" href="{url}">{label}</a>',
-    ]) ?>
+    <?= $this->render('_menu') ?>
 </div>
 <div class="my-profile-form">
     <?php $form = ActiveForm::begin([
@@ -58,20 +44,21 @@ use yii\widgets\Menu;
                 ->label('Сменить аватар', ['class' => 'button button--black']) ?>
         </div>
 
-        <?= $form->field($profileForm, 'name')->textInput() ?>
+        <?= $form->field($profileForm, 'name')->textInput(['value' => $user->name]) ?>
 
         <div class="half-wrapper">
-        <?= $form->field($profileForm, 'email')->textInput(['type' => 'email']) ?>
-        <?= $form->field($profileForm, 'birth_date')->textInput(['type' => 'date']) ?>
+        <?= $form->field($profileForm, 'email')->textInput(['type' => 'email', 'value' => $user->email]) ?>
+        <?= $form->field($profileForm, 'birth_date')->textInput(['type' => 'date', 'value' => $user->birth_date ?? '']) ?>
         </div>
 
         <div class="half-wrapper">
-            <?= $form->field($profileForm, 'phone')->textInput(['type' => 'tel']) ?>
-            <?= $form->field($profileForm, 'telegram')->textInput() ?>
+            <?= $form->field($profileForm, 'phone')->textInput(['type' => 'tel', 'value' => $user->phone ?? '']) ?>
+            <?= $form->field($profileForm, 'telegram')->textInput(['value' => $user->telegram ?? '']) ?>
         </div>
 
-    <?= $form->field($profileForm, 'description')->textarea() ?>
+    <?= $form->field($profileForm, 'description')->textarea(['value' => $user->description ?? '']) ?>
 
+    <div class="form-group--categories">
     <?php if ($user->is_performer === User::ROLE_PERFORMER): ?>
         <?= $form->field($profileForm, 'categories[]', [
             'template' => '{label}{input}',
@@ -87,6 +74,7 @@ use yii\widgets\Menu;
             },
             'unselect' => null,
         ]) ?>
+    </div>
     <?php endif; ?>
 
     <?= Html::submitButton('Сохранить', ['class' => 'button button--blue']) ?>

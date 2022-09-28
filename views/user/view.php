@@ -3,8 +3,10 @@
  * @var UserController $user
  * @var UserController $categories
  * @var UserController $reviews
+ * @var UserController $currentUser
  */
 
+use app\services\UserService;
 use app\widgets\RatingStars;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -92,6 +94,8 @@ use yii\helpers\Url;
             <dd><?= $user->is_busy ? 'Занят' : 'Открыт для новых заказов' ?>
         </dl>
     </div>
+
+    <?php if (UserService::showPerformerContacts($currentUser, $user)) : ?>
     <div class="right-card white">
         <h4 class="head-card">Контакты</h4>
         <ul class="enumeration-list">
@@ -113,4 +117,5 @@ use yii\helpers\Url;
             <?php endif; ?>
         </ul>
     </div>
+    <?php endif; ?>
 </div>

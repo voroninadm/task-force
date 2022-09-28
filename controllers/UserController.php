@@ -15,6 +15,7 @@ class UserController extends SecuredController
     public function actionView(int $id): string
     {
         $user = User::findOne($id);
+        $currentUser = Yii::$app->user->identity;
         if (!$user) {
             throw new NotFoundHttpException("Пользователь с ID=$id не найден");
         }
@@ -27,6 +28,7 @@ class UserController extends SecuredController
 
         return $this->render('view', [
             'user' => $user,
+            'currentUser' => $currentUser,
             'categories' => $user->categories,
             'reviews' => $reviews
         ]);

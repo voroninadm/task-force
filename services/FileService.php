@@ -11,16 +11,15 @@ class FileService
 {
     public function upload(UploadedFile $uploadedFile, string $type, int $id = null): File
     {
+        $dir = '';
+
         if ($type === 'task') {
             $dir = "/uploads/tasks/$id/";
-        }
-
-        if ($type === 'avatar') {
+        } elseif ($type === 'avatar') {
             $dir = "/uploads/avatars/$id/";
         }
 
         $dirToCreate = Yii::getAlias('@webroot') . $dir;
-
         if (!is_dir($dirToCreate)) {
             mkdir($dirToCreate);
         }
