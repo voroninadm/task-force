@@ -2585,3 +2585,11 @@ footer {
   color: #FF116E;
   font-size: 12px}
 /*# sourceMappingURL=style.css.map */
+
+.auth-div {
+  width: 15%;
+}
+
+.auth-icon {
+  margin: 0 0;
+}

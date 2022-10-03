@@ -97,7 +97,7 @@ $config = [
                     'clientSecret' => $params['vkSecretKey'],
                     'scope' => 'email',
                     'apiVersion' => '5.131',
-                    'title' => 'VK как исполнитель',
+                    'title' => 'Авторизация через ВКонтакте',
                 ],
             ],
         ]
