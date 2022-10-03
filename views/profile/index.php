@@ -77,6 +77,10 @@ use yii\widgets\ActiveForm;
     </div>
     <?php endif; ?>
 
+    <?php if (Yii::$app->user->identity->is_performer === null): ?>
+    <?= Html::a('Выбрать роль', 'profile/role', ['class' => 'link link--nav']) ?>
+    <?php endif ?>
+    <br>
     <?= Html::submitButton('Сохранить', ['class' => 'button button--blue']) ?>
         <?php ActiveForm::end() ?>
 </div>

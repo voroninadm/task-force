@@ -10,10 +10,9 @@ use app\services\VkService;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\Response;
 
-class VkController extends Controller
+class VkController extends GuestController
 {
     public function actions()
     {
@@ -37,17 +36,22 @@ class VkController extends Controller
 
         $vkAuthRecord = $vkService->getVkAuthRecord();
 
+        // if user authorized via VK earlier
         if (!is_null($vkAuthRecord)) {
             $user = $vkAuthRecord->user;
             Yii::$app->user->login($user);
 
-            return $this->redirect(['tasks/index']);
+            if ($user->is_performer !== null) {
+                return $this->redirect(['tasks/index']);
+            } else {
+                return $this->redirect(['profile/role']);
+            }
         }
 
         $email = ArrayHelper::getValue($attributes, 'email');
-
         $existUser = $userService->getUserByEmail($email);
 
+        // if user authorized via email not via VK earlier
         if (!is_null($existUser)) {
             $vkService->createVkAuthRecord($existUser->id);
             Yii::$app->user->login($existUser);
@@ -55,6 +59,7 @@ class VkController extends Controller
             return $this->redirect(['tasks/index']);
         }
 
+        // if new user trying to register and authorize via VK
         $newUserData = [
             'name' => ArrayHelper::getValue($attributes, 'first_name') . ' ' . ArrayHelper::getValue(
                     $attributes,
@@ -66,12 +71,12 @@ class VkController extends Controller
         ];
 
         if (!$locationService->isCityExistsInDB($newUserData['city'])) {
-            throw new Exception('В ВК не указан город пользователя');
+            throw new Exception('В ВК не указан город пользователя. Ввудите Ваш город в ВК или зарегистрируйтесь на сайте');
         }
 
         $newUser = $vkService->createUserFromVkData($newUserData);
         Yii::$app->user->login($newUser);
 
-        return $this->redirect(['tasks/index']);
+        return $this->redirect(['profile/role']);
     }
 }

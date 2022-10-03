@@ -24,11 +24,11 @@ class m220801_194528_create_user_table extends Migration
             'password' => $this->string()->notNull(),
             'phone' => $this->string()->Null(),
             'telegram' => $this->string()->Null(),
-            'done_task' => $this->integer()->null(),
-            'failed_task' => $this->integer()->null(),
-            'rating' => $this->decimal()->null(),
+            'done_task' => $this->integer()->notNull()->defaultValue(0),
+            'failed_task' => $this->integer()->notNull()->defaultValue(0),
+            'rating' => $this->decimal()->notNull()->defaultValue(0),
             'is_performer' => $this->boolean()->notNull(),
-            'is_private' => $this->boolean()->defaultValue(0),
+            'is_private' => $this->boolean()->notNull()->defaultValue(0),
             'is_busy' => $this->boolean()->notNull()->defaultValue(0)
         ]);
 

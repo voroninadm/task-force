@@ -10,7 +10,6 @@ use app\models\CreateTaskForm;
 use app\models\Category;
 use app\models\Response;
 use app\models\TaskFilterForm;
-use app\services\LocationService;
 use app\services\TaskService;
 use app\services\FileService;
 use app\models\Task;
@@ -18,6 +17,7 @@ use Yii;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
@@ -61,7 +61,7 @@ class TasksController extends SecuredController
     }
 
     /**
-     * to new tasks page
+     * main tasks page with new tasks
      * @return string
      */
     public function actionIndex(): string
@@ -105,10 +105,10 @@ class TasksController extends SecuredController
     {
         $task = Task::findOne($id);
         if (!$task) {
-            throw new Exception("Задание с ID $id не найдено");
+            throw new NotFoundHttpException("Задание с Id='$id' не найдено...");
         }
 
-        $this->view->title = "$task->title :: Taskforce";
+        $this->view->title = "$task->title";
 
         $taskService = new TaskService();
         $reviewForm = new CreateReviewForm();
@@ -151,7 +151,7 @@ class TasksController extends SecuredController
      */
     public function actionCreate(): \yii\web\Response|array|string
     {
-        $this->view->title = "Создать задание :: Taskforce";
+        $this->view->title = "Создать задание";
 
         $user = Yii::$app->user->identity;
         $userLocationData = [
@@ -192,12 +192,19 @@ class TasksController extends SecuredController
         ]);
     }
 
+    /**
+     * cancel new task - for customer
+     * @param int $id
+     * @return \yii\web\Response
+     * @throws Exception
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionCancel(int $id): \yii\web\Response
     {
         $task = Task::findOne($id);
 
         if (!$task) {
-            throw new Exception("Задание с id=$id не найдено");
+            throw new NotFoundHttpException("Задание с id=$id не найдено");
         }
 
         $user = Yii::$app->user->identity;
@@ -210,12 +217,20 @@ class TasksController extends SecuredController
         return $this->redirect(['tasks/view', 'id' => $id]);
     }
 
+    /**
+     * refuse "in_work" task - for performer
+     * @param int $id
+     * @return \yii\web\Response
+     * @throws Exception
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     */
     public function actionRefuse(int $id): \yii\web\Response
     {
         $task = Task::findOne($id);
 
         if (!$task) {
-            throw new Exception("Не найдено задачи с Id=$id");
+            throw new NotFoundHttpException("Не найдено задачи с Id=$id");
         }
 
         $taskService = new TaskService();

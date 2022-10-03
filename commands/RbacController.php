@@ -26,7 +26,6 @@ class RbacController extends Controller
         $customerIsTaskCreatorRule = new CustomerIsTaskCreatorRule();
         $customerIsCreatorOfNewTaskRule = new CustomerIsCreatorOfNewTaskRule();
         $taskPerformerRule = new TaskPerformerRule();
-        $customerViewResponseRule = new
 
         $auth->add($performerResponseRule);
         $auth->add($customerIsTaskCreatorRule);

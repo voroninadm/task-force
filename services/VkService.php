@@ -58,7 +58,7 @@ class VkService
         $user->city_id = $locationService->getCityIdByName($userData['city']);
         $user->email = $userData['email'];
         $user->password = $userData['password'];
-        $user->is_performer = User::ROLE_PERFORMER;
+//        $user->is_performer = User::ROLE_PERFORMER;
 
 
 
@@ -66,9 +66,9 @@ class VkService
             throw new Exception('Не удалось создать нового пользователя по данным из ВК!');
         }
 
-        $authManager = Yii::$app->authManager;
-        $performerRole = $authManager->getRole('performer');
-        $authManager->assign($performerRole, $user->id);
+//        $authManager = Yii::$app->authManager;
+//        $performerRole = $authManager->getRole('performer');
+//        $authManager->assign($performerRole, $user->id);
 
         $this->createVkAuthRecord($user->id);
 

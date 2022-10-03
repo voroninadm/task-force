@@ -1,13 +1,4 @@
 <?php
-require_once 'vendor/autoload.php';
-
-use taskforce\classes\converter\CsvToSqlConverter;
-use taskforce\classes\Task;
-use taskforce\classes\actions\ActionRespond;
-use taskforce\classes\actions\ActionRefuse;
-use taskforce\classes\actions\ActionFinish;
-use taskforce\classes\actions\ActionDecline;
-use taskforce\classes\exceptions\statusException;
 
 
 
@@ -41,8 +32,8 @@ use taskforce\classes\exceptions\statusException;
 //$converter = new CsvToSqlConverter('data/csv');
 //$result = $converter->convertFiles('data/sql');
 
-$converter = new CsvToSqlConverter(__DIR__ . '/data/csv');
-$converter->convertFiles(__DIR__ . '/data/sql');
+//$converter = new CsvToSqlConverter(__DIR__ . '/data/csv');
+//$converter->convertFiles(__DIR__ . '/data/sql');
 
 //function db_get_prepare_stmt($link, $sql, $data = []) {
 //    $stmt = mysqli_prepare($link, $sql);
@@ -130,5 +121,3 @@ $converter->convertFiles(__DIR__ . '/data/sql');
 //    echo "NOPE";
 //};
 
-$a = Yii::$app->language;
-echo $a;

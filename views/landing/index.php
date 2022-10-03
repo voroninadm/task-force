@@ -209,7 +209,7 @@ use yii\widgets\ActiveForm; ?>
             'popupMode' => false,
         ]); ?>
         <?php foreach ($authAuthChoice->getClients() as $client): ?>
-            <?= $authAuthChoice->clientLink($client, "Войти через {$client->getTitle()} как исполнитель") ?>
+            <?= $authAuthChoice->clientLink($client, "{$client->getTitle()}") ?>
         <?php endforeach; ?>
         <?php AuthChoice::end(); ?>
     </section>

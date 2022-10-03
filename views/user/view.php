@@ -6,6 +6,7 @@
  * @var UserController $currentUser
  */
 
+use app\controllers\UserController;
 use app\services\UserService;
 use app\widgets\RatingStars;
 use yii\helpers\Html;
