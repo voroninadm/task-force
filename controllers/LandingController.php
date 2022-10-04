@@ -16,26 +16,30 @@ class LandingController extends GuestController
 
     public function actionIndex(): string|array
     {
+        $this->view->title = 'Главная';
+
         $loginForm = new LoginForm();
 
-        //Ajax form validation
-        if (Yii::$app->request->isAjax && $loginForm->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($loginForm);
+        if (Yii::$app->request->getIsPost()) {
+            $loginForm->load(Yii::$app->request->post());
+
+            //Ajax form validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($loginForm);
+            }
+
+            //login and redirect
+            if ($loginForm->validate()) {
+                $user = $loginForm->getUser();
+                Yii::$app->user->login($user);
+                $this->redirect(['/tasks']);
+            }
         }
 
-        //login and redirect
-        if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate())
-        {
-            $user = $loginForm->getUser();
-            Yii::$app->user->login($user);
-            $this->redirect(['/tasks']);
+            return $this->render('index', [
+                'loginForm' => $loginForm
+            ]);
         }
 
-        $this->view->title = 'Главная || TaskForce';
-
-        return $this->render('index',[
-            'loginForm' => $loginForm
-        ]);
-    }
 }

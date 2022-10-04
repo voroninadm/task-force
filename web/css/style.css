@@ -966,7 +966,7 @@ template {
   margin-top: 31px;
   margin-bottom: 25px; }
   .enumeration-item a {
-    /*padding-left: 50px;*/
+    padding-left: 50px;
     position: relative; }
   .enumeration-item a::after {
     position: absolute;

@@ -11,6 +11,15 @@ use app\models\User;
 
 class ReviewService
 {
+    /**
+     * creating review - to task customer
+     * @param \app\models\CreateReviewForm $form
+     * @param \app\models\Task $task
+     * @return \app\models\Review
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
+     */
     public function createReview(CreateReviewForm $form, Task $task): Review
     {
         $userService = new UserService();

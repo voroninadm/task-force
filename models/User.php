@@ -57,7 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['name', 'city_id', 'email', 'password', 'is_performer'], 'required'],
+            [['name', 'city_id', 'email', 'password'], 'required'],
             [['birth_date', 'reg_date'], 'safe'],
             [
                 ['city_id', 'avatar_file_id', 'done_task', 'failed_task', 'is_performer', 'is_private', 'is_busy'],
@@ -217,7 +217,18 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Review::class, ['user_id' => 'id']);
     }
 
-    //===interface methods
+    public function getTasksWhereUserIsCustomer(): ActiveQuery
+    {
+        return $this->hasMany(Task::class, ['customer_id' => 'id']);
+    }
+
+
+    public function getTasksWhereUserIsPerformer(): ActiveQuery
+    {
+        return $this->hasMany(Task::class, ['performer_id' => 'id']);
+    }
+
+    //===identity interface methods
     public static function findIdentity($id)
     {
         return self::findOne($id);

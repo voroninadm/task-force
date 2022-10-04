@@ -207,9 +207,12 @@ use yii\widgets\ActiveForm; ?>
         <?php $authAuthChoice = AuthChoice::begin([
             'baseAuthUrl' => ['vk/auth'],
             'popupMode' => false,
+            'options' => [
+                    'class' => 'auth-div'
+            ]
         ]); ?>
         <?php foreach ($authAuthChoice->getClients() as $client): ?>
-            <?= $authAuthChoice->clientLink($client, "Войти через {$client->getTitle()} как исполнитель") ?>
+            <?= $authAuthChoice->clientLink($client) ?>
         <?php endforeach; ?>
         <?php AuthChoice::end(); ?>
     </section>

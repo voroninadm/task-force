@@ -25,18 +25,9 @@ class LoginForm extends Model
     {
         return [
             [['email', 'password'], 'required'],
-            [[ 'email'], 'trim'],
-            [['email', 'password'], 'safe'],
+            [['email'], 'trim'],
             ['email', 'email'],
-            [
-                'email',
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => User::class,
-                'targetAttribute' => ['email' => 'email'],
-                'message' => 'Пользователя с таким e-mail не существует',
-            ],
-            ['password', 'validatePassword'],
+            ['password', 'validatePassword']
         ];
     }
 
@@ -46,7 +37,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неправильный пароль');
+                $this->addError($attribute, 'Некорректная пара логин-пароль');
             }
         }
     }

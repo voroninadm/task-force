@@ -4,6 +4,7 @@
 namespace app\models;
 
 
+use Yii;
 use yii\base\Model;
 
 class RegistrationForm extends Model
@@ -34,7 +35,7 @@ class RegistrationForm extends Model
             [['email'], 'email'],
             [['name', 'email', 'password', 'password_repeat'], 'string', 'max' => 255],
             [['name', 'email'], 'trim'],
-            [['password', 'password_repeat'], 'string', 'min' => 5],
+            [['password', 'password_repeat'], 'string', 'min' => Yii::$app->params['minUserPasswordLength']],
             [['city_id', 'is_performer'], 'integer'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],
             [

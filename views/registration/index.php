@@ -15,12 +15,12 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin([
                 'id' => 'registrationForm',
             'enableAjaxValidation' => true,
-                'fieldConfig' => [
-                    'errorOptions' => [
-                        'tag' => 'span',
-                        'class' => 'help-block'
-                    ]
+            'fieldConfig' => [
+                'errorOptions' => [
+                    'tag' => 'span',
+                    'class' => 'help-block'
                 ]
+            ]
         ]) ?>
         <h3 class="head-main head-task">Регистрация нового пользователя</h3>
 
