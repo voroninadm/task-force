@@ -6,6 +6,11 @@ namespace app\services;
 
 class LayoutService
 {
+    /**
+     * Adding classes to main section to styleguide
+     * @param string $url
+     * @return string
+     */
     public static function addClassToMain(string $url): string
     {
         $classMap = [
