@@ -54,7 +54,6 @@ class VkService
         $user = new User();
         $user->loadDefaultValues();
         $user->name = $userData['name'];
-        $user->avatar_file_id = 1;
         $user->city_id = $locationService->getCityIdByName($userData['city']);
         $user->email = $userData['email'];
         $user->password = $userData['password'];

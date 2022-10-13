@@ -51,7 +51,7 @@ $this->registerJsFile('@web/js/map.js', []);
             <?php foreach ($responses as $response): ?>
                 <?php if (Yii::$app->user->id === $task->customer_id || Yii::$app->user->id === $response->user_id): ?>
                     <div class="response-card">
-                        <img class="customer-photo" src="<?= $response->user->avatarFile->url ?>" width="146"
+                        <img class="customer-photo" src="<?= $response->user->avatarFile->url ?? Yii::$app->params['userDefaultAvatarPath'] ?>" width="146"
                              height="156"
                              alt="Фото заказчиков">
                         <div class="feedback-wrapper">
@@ -117,7 +117,7 @@ $this->registerJsFile('@web/js/map.js', []);
                     <li class="enumeration-item">
                         <a href="<?= Url::to($file->url) ?>"
                            class="link link--block link--clip" download> <?= basename($file->url) ?> </a>
-<!--                                            <p class="file-size">--><?//= $file->size ?><!--</p>-->
+                                            <p class="file-size"><?= $file->size ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>

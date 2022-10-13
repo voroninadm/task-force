@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
         <div class="photo-editing">
             <div>
                 <p class="form-label">Аватар</p>
-                <?= Html::img($user->avatarFile->url, [
+                <?= Html::img($user->avatarFile->url ?? Yii::$app->params['userDefaultAvatarPath'], [
                     'class' => 'avatar-preview',
                     'alt' => 'Аватар',
                     'width' => 83,

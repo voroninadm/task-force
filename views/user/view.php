@@ -19,7 +19,7 @@ use yii\helpers\Url;
 
     <div class="user-card">
         <div class="photo-rate">
-            <img class="card-photo" src="<?= $user->avatarFile->url ?>" width="191" height="190"
+            <img class="card-photo" src="<?= $user->avatarFile->url ?? Yii::$app->params['userDefaultAvatarPath'] ?>" width="191" height="190"
                  alt="Фото пользователя">
             <div class="card-rate">
                 <div class="stars-rating big">

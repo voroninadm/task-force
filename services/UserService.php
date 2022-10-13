@@ -27,7 +27,6 @@ class UserService
         $user = new User();
         $user->loadDefaultValues();
         $user->name = $form->name;
-        $user->avatar_file_id = 1;
         $user->city_id = $form->city_id;
         $user->email = $form->email;
         $user->password = Yii::$app->security->generatePasswordHash($form->password);

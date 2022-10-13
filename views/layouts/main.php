@@ -65,7 +65,7 @@ AppAsset::register($this);
 
             <div class="user-block">
                 <a href="<?= Url::to("/user/view/$user->id") ?>">
-                    <img class="user-photo" src="<?= $user->avatarFile->url ?>" width="55" height="55" alt="Аватар">
+                    <img class="user-photo" src="<?= $user->avatarFile->url ?? Yii::$app->params['userDefaultAvatarPath'] ?>" width="55" height="55" alt="Аватар">
                 </a>
                 <div class="user-menu">
                     <p class="user-name"><?= Html::encode($user->name) ?></p>
