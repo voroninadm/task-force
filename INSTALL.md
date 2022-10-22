@@ -18,6 +18,9 @@
 - Выполнить миграции БД
    > php yii migrate
   
+- Загрузить фикстуры для БД
+  > php yii fixture/load "*"
+  
 - Выполнить миграции yii для rbac
   > yii migrate --migrationPath=@yii/rbac/migrations
   

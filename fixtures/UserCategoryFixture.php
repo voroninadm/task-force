@@ -8,5 +8,5 @@ use yii\test\ActiveFixture;
 class UserCategoryFixture extends ActiveFixture
 {
     public $tableName = 'user_category';
-    public $depends = [UserFixture::class];
+    public $dataFile = __DIR__ . '/data/userCategory.php';
 }

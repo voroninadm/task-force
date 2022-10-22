@@ -3,7 +3,6 @@
 return [
     'response0' => [
         'task_id' => 20,
-        'task_budget' => 3615,
         'user_id' => 9,
         'comment' => 'Quasi quaerat et sed sunt aut aspernatur. Aut veniam doloremque accusamus dolorum doloribus quia optio quod. Sint qui incidunt aut voluptatem reiciendis veritatis.',
         'create_date' => '2022-08-02 12:07:14',
@@ -12,7 +11,6 @@ return [
     ],
     'response1' => [
         'task_id' => 18,
-        'task_budget' => 8913,
         'user_id' => 18,
         'comment' => 'Autem iste non quidem. Cupiditate doloribus in voluptatem quia eum consectetur est nulla. Libero sunt cum vero molestias facilis. Et sint ullam similique dicta.',
         'create_date' => '2022-08-02 19:26:37',
@@ -21,7 +19,6 @@ return [
     ],
     'response2' => [
         'task_id' => 8,
-        'task_budget' => 7027,
         'user_id' => 9,
         'comment' => 'Exercitationem fugiat maxime deleniti. Asperiores consectetur aut vel dolorum perspiciatis quasi veritatis perspiciatis. Corrupti voluptatem voluptatem odit dolore quaerat est.',
         'create_date' => '2022-08-02 04:47:36',
@@ -30,7 +27,6 @@ return [
     ],
     'response3' => [
         'task_id' => 17,
-        'task_budget' => 4436,
         'user_id' => 1,
         'comment' => 'Quas omnis et itaque officia deserunt. Nobis sit ut ut. Id quis itaque eligendi inventore nihil.',
         'create_date' => '2022-08-02 09:12:34',
@@ -39,7 +35,6 @@ return [
     ],
     'response4' => [
         'task_id' => 0,
-        'task_budget' => 5859,
         'user_id' => 11,
         'comment' => 'Dolore et facere voluptas minus. Eum expedita consequatur perspiciatis voluptas in ea mollitia. Dolorem quo odit aperiam dolores rerum. Ipsa libero explicabo doloremque commodi vel officiis.',
         'create_date' => '2022-08-03 05:37:43',
@@ -48,7 +43,6 @@ return [
     ],
     'response5' => [
         'task_id' => 13,
-        'task_budget' => 671,
         'user_id' => 3,
         'comment' => 'Molestiae aut blanditiis facilis aut. Iure temporibus aliquid ad quia qui. Incidunt mollitia soluta est molestiae. Nam sit ad molestiae magnam minima aut.',
         'create_date' => '2022-08-02 09:05:48',
@@ -57,7 +51,6 @@ return [
     ],
     'response6' => [
         'task_id' => 0,
-        'task_budget' => 9458,
         'user_id' => 14,
         'comment' => 'Error sed minus quis facilis. Ea molestiae vero est expedita deserunt incidunt optio. Qui voluptates consequatur ipsum minima omnis. Ut commodi vero repudiandae sapiente voluptatum nam ratione beatae.',
         'create_date' => '2022-08-03 08:14:47',
@@ -66,7 +59,6 @@ return [
     ],
     'response7' => [
         'task_id' => 18,
-        'task_budget' => 8949,
         'user_id' => 20,
         'comment' => 'Praesentium consequatur mollitia in qui. Rerum amet vel nesciunt est. Vitae amet tempore voluptas earum explicabo amet est praesentium. Accusantium quis error labore id ipsam optio assumenda repudiandae.',
         'create_date' => '2022-08-02 06:23:07',
@@ -75,7 +67,6 @@ return [
     ],
     'response8' => [
         'task_id' => 2,
-        'task_budget' => 2225,
         'user_id' => 9,
         'comment' => 'Quia aut sint facere exercitationem sequi. Soluta magni porro et expedita neque officia sapiente. Facere repellat doloribus et unde qui ut et.',
         'create_date' => '2022-08-02 20:09:20',
@@ -84,7 +75,6 @@ return [
     ],
     'response9' => [
         'task_id' => 7,
-        'task_budget' => 4828,
         'user_id' => 19,
         'comment' => 'Autem mollitia a voluptates ad tenetur. Nihil ut ut occaecati dolores omnis. Sint itaque culpa quia eius.',
         'create_date' => '2022-08-03 22:54:40',
