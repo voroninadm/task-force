@@ -22,7 +22,7 @@
   > php yii fixture/load "*"
   
 - Выполнить миграции yii для rbac
-  > yii migrate --migrationPath=@yii/rbac/migrations
+  >php yii migrate --migrationPath=@yii/rbac/migrations
   
 - Инициализировать rbac 
-  > yii rbac/init
+  >php yii rbac/init

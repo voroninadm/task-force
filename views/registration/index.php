@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
                 ]);
             ?>
         </div>
-        <?= Html::submitButton('я', ['class' => 'button button--blue']) ?>
+        <?= Html::submitButton('Создать аккаунт', ['class' => 'button button--blue']) ?>
         <?php ActiveForm::end() ?>
     </div>
 </div>

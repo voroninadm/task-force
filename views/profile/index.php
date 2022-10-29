@@ -48,7 +48,8 @@ use yii\widgets\ActiveForm;
 
         <div class="half-wrapper">
         <?= $form->field($profileForm, 'email')->textInput(['type' => 'email', 'value' => $user->email]) ?>
-        <?= $form->field($profileForm, 'birth_date')->textInput(['type' => 'date', 'value' => $user->birth_date ?? '']) ?>
+        <?= $form->field($profileForm, 'birth_date')->textInput(['type' => 'date',
+            'value' => $user->birth_date ? Yii::$app->formatter->asDate($user->birth_date, 'php:Y-m-d') : '']) ?>
         </div>
 
         <div class="half-wrapper">

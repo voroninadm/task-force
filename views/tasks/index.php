@@ -61,7 +61,13 @@ use yii\widgets\ListView;
                 'id' => null,
                 'action' => '',
                 'method' => 'get',
-                'options' => ['class' => 'search-form']
+                'options' => ['class' => 'search-form'],
+                'fieldConfig' => [
+                    'errorOptions' => [
+                        'tag' => 'span',
+                        'class' => 'help-block'
+                    ]
+                ]
             ]); ?>
 
             <h4 class="head-card">Категории</h4>
@@ -86,11 +92,15 @@ use yii\widgets\ListView;
                 'labelOptions' => ['class' => 'control-label']
             ], true); ?>
 
+            <?= $form->field($filterForm, 'remote')->checkbox([
+                'labelOptions' => ['class' => 'control-label']
+            ], true); ?>
+
             <h4 class="head-card">Период</h4>
 
             <?= $form->field($filterForm, 'period')
                 ->dropDownList(TaskFilterForm::PERIOD_VALUES, [
-                    'prompt' => 'Выберите период',
+                    'prompt' => 'Выберите период...',
                 ])
                 ->label(false) ?>
 

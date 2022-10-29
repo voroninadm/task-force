@@ -2,93 +2,93 @@
 
 return [
     'file0' => [
-        'url' => 'http://www.zdanov.com/',
+        'url' => '/img/avatars/1.png',
     ],
     'file1' => [
-        'url' => 'http://saveleva.ru/',
+        'url' => '/img/avatars/4.png',
     ],
     'file2' => [
-        'url' => 'http://www.sarapova.net/',
+        'url' => '/img/avatars/3.png',
     ],
     'file3' => [
-        'url' => 'http://sukina.ru/nihil-qui-dignissimos-consequuntur-adipisci-dolorem.html',
+        'url' => '/img/avatars/3.png',
     ],
     'file4' => [
-        'url' => 'http://www.koseleva.org/',
+        'url' => '/img/avatars/1.png',
     ],
     'file5' => [
-        'url' => 'https://galkina.org/ut-reiciendis-qui-est-sed-quis-et.html',
+        'url' => '/img/avatars/4.png',
     ],
     'file6' => [
-        'url' => 'http://aleksandrov.com/amet-voluptatibus-molestias-corrupti-odio',
+        'url' => '/img/avatars/3.png',
     ],
     'file7' => [
-        'url' => 'http://www.belozerova.com/et-consequuntur-nesciunt-iste-vel',
+        'url' => '/img/avatars/5.png',
     ],
     'file8' => [
-        'url' => 'http://antonov.ru/',
+        'url' => '/img/avatars/5.png',
     ],
     'file9' => [
-        'url' => 'http://ignatev.ru/perspiciatis-veniam-blanditiis-iusto-ipsa.html',
+        'url' => '/img/avatars/2.png',
     ],
     'file10' => [
-        'url' => 'http://birykova.com/nam-voluptate-aspernatur-blanditiis-facere-quibusdam-corporis',
+        'url' => '/img/avatars/4.png',
     ],
     'file11' => [
-        'url' => 'http://www.novikova.net/modi-ratione-sapiente-labore-voluptatibus-quia.html',
+        'url' => '/img/avatars/2.png',
     ],
     'file12' => [
-        'url' => 'http://www.voronova.ru/maiores-itaque-vel-ea-ullam-eum-qui-et.html',
+        'url' => '/img/avatars/3.png',
     ],
     'file13' => [
-        'url' => 'http://gusina.net/corrupti-nostrum-id-aliquam-nemo-impedit-nam.html',
+        'url' => '/img/avatars/4.png',
     ],
     'file14' => [
-        'url' => 'http://www.doronin.com/eos-harum-corrupti-dolores-vel-nobis-vel',
+        'url' => '/img/avatars/3.png',
     ],
     'file15' => [
-        'url' => 'https://www.novikova.net/qui-quis-sit-est-praesentium',
+        'url' => '/img/avatars/4.png',
     ],
     'file16' => [
-        'url' => 'http://www.agafonova.com/',
+        'url' => '/img/avatars/2.png',
     ],
     'file17' => [
-        'url' => 'http://www.kopylova.ru/dolores-omnis-soluta-ut-a-tempora-at.html',
+        'url' => '/img/avatars/5.png',
     ],
     'file18' => [
-        'url' => 'https://www.martynov.ru/aut-ratione-est-voluptas-dolorem',
+        'url' => '/img/avatars/1.png',
     ],
     'file19' => [
-        'url' => 'http://www.zykova.org/',
+        'url' => '/img/avatars/5.png',
     ],
     'file20' => [
-        'url' => 'https://panova.net/sunt-ut-veritatis-eaque-voluptas-fugit-perspiciatis-labore.html',
+        'url' => '/img/avatars/1.png',
     ],
     'file21' => [
-        'url' => 'http://www.prokorov.ru/necessitatibus-sit-nostrum-sed-repellat-natus-magni-dolores-et',
+        'url' => '/img/avatars/4.png',
     ],
     'file22' => [
-        'url' => 'https://petrov.com/quisquam-sapiente-illum-qui-officia-voluptatem.html',
+        'url' => '/img/avatars/1.png',
     ],
     'file23' => [
-        'url' => 'http://fedorova.ru/',
+        'url' => '/img/avatars/4.png',
     ],
     'file24' => [
-        'url' => 'http://www.korolev.net/ipsa-nihil-aut-esse-exercitationem-at-repellat-ratione-deserunt',
+        'url' => '/img/avatars/5.png',
     ],
     'file25' => [
-        'url' => 'https://ykusev.ru/voluptatem-et-quia-et-dolor-nulla.html',
+        'url' => '/img/avatars/4.png',
     ],
     'file26' => [
-        'url' => 'https://lavrentev.com/assumenda-aut-natus-qui-quia-beatae-sed-non.html',
+        'url' => '/img/avatars/1.png',
     ],
     'file27' => [
-        'url' => 'http://www.komarova.ru/consequatur-aut-hic-sit-fugiat',
+        'url' => '/img/avatars/1.png',
     ],
     'file28' => [
-        'url' => 'http://efimova.ru/explicabo-aliquid-aut-tempora-sit-repellendus-sunt-qui',
+        'url' => '/img/avatars/3.png',
     ],
     'file29' => [
-        'url' => 'http://petukova.net/quia-cum-consequatur-libero-vitae-rerum-quasi',
+        'url' => '/img/avatars/1.png',
     ],
 ];

@@ -11,17 +11,19 @@ class TaskFilterForm extends Model
     public $categories;
     public $withoutPerformer;
     public $period;
+    public $remote;
 
     const PERIOD_VALUES = [
-        '1' => '1 час',
-        '12' => '12 часов',
-        '24' => '24 часа',
+        '1' => 'час',
+        '24' => 'сутки',
+        '168' => 'неделя',
     ];
 
     public function attributeLabels(): array
     {
         return [
             'withoutPerformer' => 'Без исполнителя',
+            'remote' => 'Удаленная работа',
         ];
     }
 
@@ -29,7 +31,7 @@ class TaskFilterForm extends Model
     public function rules(): array
     {
         return [
-            [['categories', 'withoutPerformer', 'period'], 'safe']
+            [['categories', 'withoutPerformer', 'period', 'remote'], 'safe']
         ];
     }
 

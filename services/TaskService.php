@@ -36,6 +36,10 @@ class TaskService
             $query->andWhere(['performer_id' => null]);
         }
 
+        if ((int) !empty($form->remote)) {
+            $query->andWhere(['address' => null]);
+        }
+
         if ((int) $form->period !== 0) {
             $query->andWhere("public_date > NOW() - INTERVAL :period HOUR", [
                 ':period' => (int) $form->period]);

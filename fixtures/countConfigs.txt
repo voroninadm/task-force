@@ -1,4 +1,4 @@
-
+php yii fixture/load Company
 category_count = 8;
 cities_count = 1087;
 users_count = 15;
