@@ -17,6 +17,7 @@ class LocationController extends SecuredController
      * and return json with
      * @param string $geocode
      * @return array
+     * @throws \Exception
      */
     public function actionGeocode(string $geocode): array
     {

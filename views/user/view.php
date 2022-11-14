@@ -38,7 +38,9 @@ use yii\helpers\Url;
                 <ul class="special-list">
                     <?php foreach ($categories as $category) : ?>
                         <li class="special-item">
-                            <a href="#" class="link link--regular"><?= $category->name ?></a>
+                            <a href="<?= Url::toRoute(['/tasks/index', 'categories' => $category->id]) ?>" class="link link--regular">
+                                <?= $category->name ?>
+                            </a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -66,7 +68,7 @@ use yii\helpers\Url;
         <h4 class="head-regular">Отзывы заказчиков</h4>
         <?php foreach ($reviews as $review) : ?>
             <div class="response-card">
-                <img class="customer-photo" src="<?= $review->author->avatarFile->url ?>" width="120" height="127"
+                <img class="customer-photo" src="<?= $review->author->avatarFile->url ?? Yii::$app->params['userDefaultAvatarPath'] ?>" width="120" height="127"
                      alt="Фото заказчиков">
                 <div class="feedback-wrapper">
                     <p class="feedback"><?= Html::encode($review->description) ?></p>

@@ -6,6 +6,7 @@ use app\models\Auth;
 use app\models\User;
 use Yii;
 use yii\base\Exception;
+use yii\db\ActiveRecord;
 
 class VkService
 {
@@ -19,11 +20,15 @@ class VkService
     }
 
     /**
-     * @return Auth|null
+     * @return array|\yii\db\ActiveRecord
      */
-    public function getVkAuthRecord(): ?Auth
+    public function getVkAuthRecord(): ActiveRecord|bool
     {
-        return Auth::find()->where(['source' => $this->source, 'source_id' => $this->sourceId,])->one();
+        $result = Auth::find()->where(['source' => $this->source, 'source_id' => $this->sourceId,])->one();
+        if (!empty($result)) {
+            return $result;
+        }
+        return false;
     }
 
     /**

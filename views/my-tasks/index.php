@@ -66,7 +66,7 @@ use yii\widgets\Menu;
     <h3 class="head-main head-regular"><?= $title ?></h3>
     <?= ListView::widget([
         'dataProvider' => $tasksDataProvider,
-        'itemView' => '..\tasks\_task',
+        'itemView' => '../tasks/_task',
         'itemOptions' => [
             'tag' => false
         ],

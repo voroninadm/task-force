@@ -37,7 +37,7 @@ class VkController extends GuestController
         $vkAuthRecord = $vkService->getVkAuthRecord();
 
         // if user authorized via VK earlier
-        if (!is_null($vkAuthRecord)) {
+        if (!$vkAuthRecord) {
             $user = $vkAuthRecord->user;
             Yii::$app->user->login($user);
 

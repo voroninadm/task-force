@@ -19,6 +19,11 @@ class TaskFilterForm extends Model
         '168' => 'неделя',
     ];
 
+    public function formName()
+    {
+        return '';
+    }
+
     public function attributeLabels(): array
     {
         return [

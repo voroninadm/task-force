@@ -80,8 +80,8 @@ use yii\widgets\ListView;
                         return
                             "<div>
                                 <label class='control-label'>
-                                    <input type='checkbox'  name='$name' value='$value' $checked>
-                                $label</label>
+                                    <input type='checkbox'  name='{$name}' value='{$value}' $checked>
+                                {$label}</label>
                             </div>";
                     },
                 ])->label(false) ?>
