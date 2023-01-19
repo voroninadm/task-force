@@ -9,6 +9,20 @@ use yii\web\UploadedFile;
 
 class FileService
 {
+    private string $dirToCreate = '';
+    private string $dir = '';
+
+    public function __construct(string $type, int $id = null)
+    {
+        if ($type === 'task') {
+            $this->dir = "/uploads/tasks/$id/";
+        } elseif ($type === 'avatar') {
+            $this->dir = "/uploads/avatars/$id/";
+        }
+
+        $this->dirToCreate = Yii::getAlias('@webroot') . $this->dir;
+    }
+
     /**
      * Upload file to 2 directories: tasks files and avatar files
      * @param \yii\web\UploadedFile $uploadedFile
@@ -19,21 +33,12 @@ class FileService
      */
     public function upload(UploadedFile $uploadedFile, string $type, int $id = null): File
     {
-        $dir = '';
-
-        if ($type === 'task') {
-            $dir = "/uploads/tasks/$id/";
-        } elseif ($type === 'avatar') {
-            $dir = "/uploads/avatars/$id/";
-        }
-
-        $dirToCreate = Yii::getAlias('@webroot') . $dir;
-        if (!is_dir($dirToCreate)) {
-            mkdir($dirToCreate);
+        if (!is_dir($this->dirToCreate)) {
+            mkdir($this->dirToCreate);
         }
 
         $fileName = "$uploadedFile->baseName.$uploadedFile->extension";
-        $url = "{$dir}{$fileName}";
+        $url = "{$this->dir}{$fileName}";
 
         $uploadedFile->saveAs(Yii::getAlias('@webroot') . $url);
 
