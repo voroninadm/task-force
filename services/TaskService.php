@@ -23,7 +23,7 @@ class TaskService
      * @param TaskFilterForm $form
      * @return ActiveQuery
      */
-    public function filterTasks(TaskFilterForm $form): ActiveQuery
+    public static function filterTasks(TaskFilterForm $form): ActiveQuery
     {
         $query = Task::find()
             ->where(['status' => Task::STATUS_NEW]);
@@ -129,7 +129,7 @@ class TaskService
      * @return array
      * @throws Exception
      */
-    public function getAvailableTaskActions(User $user, Task $task): array
+    public static function getAvailableTaskActions(User $user, Task $task): array
     {
         $actionsLinks = [];
 

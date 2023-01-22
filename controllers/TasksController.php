@@ -11,7 +11,6 @@ use app\models\Category;
 use app\models\Response;
 use app\models\TaskFilterForm;
 use app\services\TaskService;
-use app\services\FileService;
 use app\models\Task;
 use Yii;
 use yii\base\Exception;
@@ -23,15 +22,6 @@ use yii\widgets\ActiveForm;
 
 class TasksController extends SecuredController
 {
-//    private $fileService;
-//
-//    public function __construct(FileService $fs,$id, $module, $config = [])
-//    {
-//        $this->fileService = $fs;
-//        parent::__construct($id, $module, $config);
-//    }
-
-
     public function behaviors(): array
     {
         return [
@@ -78,13 +68,10 @@ class TasksController extends SecuredController
         $this->view->title = 'Новые задания';
 
         $categoriesList = Category::getCategoryList();
-
         $filterForm = new TaskFilterForm();
-
         $filterForm->load(Yii::$app->request->get());
+        $query = TaskService::filterTasks($filterForm);
 
-
-        $query = (new TaskService())->filterTasks($filterForm);
         $tasksDataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -119,18 +106,12 @@ class TasksController extends SecuredController
 
         $this->view->title = "$task->title";
 
-        $taskService = new TaskService();
-        $reviewForm = new CreateReviewForm();
-        $responseForm = new CreateResponseForm();
-
         $taskStatusNameRu = Task::STATUSES_RU[$task->status];
 
         $responses = Response::find()->where(['task_id' => $id])->all();
-
         $files = $task->files;
-        $taskUserActions = $taskService->getAvailableTaskActions(Yii::$app->user->identity, $task);
+        $availableUserActions = TaskService::getAvailableTaskActions(Yii::$app->user->identity, $task);
         $locationData = [];
-
         if (isset($task->city_id)) {
             $locationData = [
                 'lat' => $task->lat,
@@ -146,9 +127,9 @@ class TasksController extends SecuredController
                     'taskStatusNameRu' => $taskStatusNameRu,
                     'responses' => $responses,
                     'files' => $files,
-                    'reviewForm' => $reviewForm,
-                    'responseForm' => $responseForm,
-                    'taskUserActions' => $taskUserActions,
+                    'reviewForm' => new CreateReviewForm(),
+                    'responseForm' => new CreateResponseForm(),
+                    'taskUserActions' => $availableUserActions,
                     'locationData' => $locationData
                 ]);
     }
