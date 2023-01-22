@@ -57,7 +57,7 @@ class TaskService
     {
         $locationService = new LocationService();
 
-        $task = new Task();
+        $task = Yii::$container->get(Task::class);
         $task->loadDefaultValues();
 
         $task->status = Task::STATUS_NEW;

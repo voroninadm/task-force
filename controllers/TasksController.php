@@ -23,6 +23,15 @@ use yii\widgets\ActiveForm;
 
 class TasksController extends SecuredController
 {
+//    private $fileService;
+//
+//    public function __construct(FileService $fs,$id, $module, $config = [])
+//    {
+//        $this->fileService = $fs;
+//        parent::__construct($id, $module, $config);
+//    }
+
+
     public function behaviors(): array
     {
         return [
@@ -177,7 +186,8 @@ class TasksController extends SecuredController
 
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $uploadedFile) {
-                    $file = (new FileService())->upload($uploadedFile, 'task', $task->id);
+                    $fileService = Yii::$container->get('FileService', ['task', $task->id]);
+                    $file = $fileService->upload($uploadedFile);
                     $task->link('files', $file);
                 }
             }

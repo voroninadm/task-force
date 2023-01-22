@@ -12,6 +12,20 @@ use yii\helpers\ArrayHelper;
 
 class LocationService
 {
+
+    private Client $client;
+    private string $geoApiUri;
+    private mixed $geoApiKey;
+    private string $userCity;
+
+    public function __construct() {
+        $this->geoApiKey = Yii::$app->params['apiYandexGeocoderKey'];
+        $this->geoApiUri = Yii::$app->params['geoApiUri'];
+        $this->userCity = Yii::$app->user->identity->city->name;
+
+        $this->client = new Client();
+    }
+
     /**
      * Main location function.
      * @param string $geocode - address string like 'Абаза, Спортивная 4'
@@ -20,16 +34,11 @@ class LocationService
      */
     public function getLocation(string $geocode): array
     {
-        $geoApiKey = Yii::$app->params['apiYandexGeocoderKey'];
-        $geoApiUri = "https://geocode-maps.yandex.ru/1.x/";
-        $userCity = Yii::$app->user->identity->city->name;
-
-        $client = new Client();
         $result = [];
 
         try {
-            $response = $client->request('GET', $geoApiUri, [
-                'query' => ['apikey' => $geoApiKey, 'geocode' => $geocode, 'format' => 'json']
+            $response = $this->client->request('GET', $this->geoApiUri, [
+                'query' => ['apikey' => $this->geoApiKey, 'geocode' => $geocode, 'format' => 'json']
             ]);
             $content = $response->getBody()->getContents();
             $responseData = json_decode($content, true);
@@ -43,7 +52,7 @@ class LocationService
         }
 
         //for only user city
-        return array_values(array_filter($result, fn($item) => $item['city'] === $userCity));
+        return array_values(array_filter($result, fn($item) => $item['city'] === $this->userCity));
 
         // for all cities
 //        return array_values($result);
@@ -55,7 +64,7 @@ class LocationService
      * @return array
      * @throws \Exception
      */
-    public function getLocationData(array $geoObject): array
+    private function getLocationData(array $geoObject): array
     {
         $geocoderMetaData = ArrayHelper::getValue($geoObject, 'GeoObject.metaDataProperty.GeocoderMetaData');
         $addressComponents = ArrayHelper::map(

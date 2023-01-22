@@ -31,7 +31,7 @@ class FileService
      * @return \app\models\File
      * @throws \yii\base\Exception
      */
-    public function upload(UploadedFile $uploadedFile, string $type, int $id = null): File
+    public function upload(UploadedFile $uploadedFile): File
     {
         if (!is_dir($this->dirToCreate)) {
             mkdir($this->dirToCreate);
