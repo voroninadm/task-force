@@ -24,6 +24,14 @@ $this->registerJsFile('@web/js/map.js', []);
 ?>
 
 <div class="left-column">
+
+    <?php if( Yii::$app->session->hasFlash('success') ): ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php echo Yii::$app->session->getFlash('success'); ?>
+        </div>
+    <?php endif;?>
+
     <div class="head-wrapper">
         <h3 class="head-main"><?= Html::encode($task->title) ?></h3>
         <?php if (!empty($task->price)) : ?>

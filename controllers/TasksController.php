@@ -14,6 +14,7 @@ use app\services\TaskService;
 use app\models\Task;
 use Yii;
 use yii\base\Exception;
+use yii\base\UserException;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -68,7 +69,7 @@ class TasksController extends SecuredController
         $this->view->title = 'Новые задания';
 
         $categoriesList = Category::getCategoryList();
-        $filterForm = new TaskFilterForm();
+        $filterForm = Yii::$container->get(TaskFilterForm::class);
         $filterForm->load(Yii::$app->request->get());
         $query = TaskService::filterTasks($filterForm);
 
@@ -121,17 +122,17 @@ class TasksController extends SecuredController
             ];
         }
 
-            return $this->render('view',
-                [
-                    'task' => $task,
-                    'taskStatusNameRu' => $taskStatusNameRu,
-                    'responses' => $responses,
-                    'files' => $files,
-                    'reviewForm' => new CreateReviewForm(),
-                    'responseForm' => new CreateResponseForm(),
-                    'taskUserActions' => $availableUserActions,
-                    'locationData' => $locationData
-                ]);
+        return $this->render('view',
+            [
+                'task' => $task,
+                'taskStatusNameRu' => $taskStatusNameRu,
+                'responses' => $responses,
+                'files' => $files,
+                'reviewForm' => Yii::$container->get(CreateReviewForm::class),
+                'responseForm' => Yii::$container->get(CreateResponseForm::class),
+                'taskUserActions' => $availableUserActions,
+                'locationData' => $locationData
+            ]);
     }
 
     /**
@@ -189,22 +190,18 @@ class TasksController extends SecuredController
      * @return \yii\web\Response
      * @throws Exception
      * @throws \yii\db\StaleObjectException
+     * @throws \Throwable
      */
     public function actionCancel(int $id): \yii\web\Response
     {
         $task = Task::findOne($id);
-
         if (!$task) {
             throw new NotFoundHttpException("Задание с id=$id не найдено");
         }
 
-        $user = Yii::$app->user->identity;
-        $taskService = new TaskService();
+        TaskService::cancelTask($task);
 
-        if ($user->id === $task->customer_id && $task->status === Task::STATUS_NEW) {
-            $taskService->cancelTask($task);
-        }
-
+        Yii::$app->session->setFlash('success', 'Задача успешно отменена!');
         return $this->redirect(['tasks/view', 'id' => $id]);
     }
 
@@ -219,15 +216,12 @@ class TasksController extends SecuredController
     public function actionRefuse(int $id): \yii\web\Response
     {
         $task = Task::findOne($id);
-
         if (!$task) {
             throw new NotFoundHttpException("Не найдено задачи с Id=$id");
         }
 
-        $taskService = new TaskService();
-        $taskService->refuseTask($task);
+        TaskService::refuseTask($task);
 
         return $this->redirect(['tasks/view', 'id' => $id]);
     }
-
 }

@@ -12,6 +12,7 @@ use app\rbac\actions\ActionRefuse;
 use app\rbac\actions\ActionResponse;
 use Yii;
 use yii\base\Exception;
+use yii\base\UserException;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\Url;
@@ -85,13 +86,20 @@ class TaskService
 
     /**
      * cancel new task service (by customer)
-     * @param Task $task
+     * @param \app\models\Task $task
+     * @throws \Throwable
+     * @throws \yii\base\UserException
      * @throws \yii\db\StaleObjectException
      */
-    public function cancelTask(Task $task): void
+    public static function cancelTask(Task $task): void
     {
-        $task->status = Task::STATUS_CANCELED;
-        $task->update();
+        $user = Yii::$app->user->identity;
+        if ($user->id === $task->customer_id && $task->status === Task::STATUS_NEW){
+            $task->status = Task::STATUS_CANCELED;
+            $task->update();
+        } else {
+            throw new UserException('Ошибка! Только заказчик может отменять собственные заказы!');
+        }
     }
 
     /**
@@ -100,7 +108,7 @@ class TaskService
      * @param Task $task
      * @throws \yii\db\Exception|\Throwable
      */
-    public function refuseTask(Task $task): void
+    public static function refuseTask(Task $task): void
     {
         $userService = new UserService();
         $performer = $task->performer;
